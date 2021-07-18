@@ -1,11 +1,13 @@
-/* global Cookies, QUnit, lifecycle, quoted */
+/* global QUnit */
+import Cookies from '../dist/js.cookie.mjs'
+import { lifecycle, quoted } from './utils.mjs'
 
 QUnit.module('setup', lifecycle)
 
 QUnit.test('api instance creation', function (assert) {
   assert.expect(4)
 
-  var api
+  let api
 
   api = Cookies.withAttributes({ path: '/bar' })
   assert.ok(
@@ -43,15 +45,24 @@ QUnit.test('api instance with attributes', function (assert) {
   assert.expect(3)
 
   // Create a new instance so we don't affect remaining tests...
-  var api = Cookies.withAttributes({ path: '/' })
+  const api = Cookies.withAttributes({ path: '/' })
 
-  delete api.attributes
+  try {
+    // throws TypeError in strict mode (ES module)
+    delete api.attributes
+  } catch (error) {}
   assert.ok(api.attributes, "won't allow to delete property")
 
-  api.attributes = {}
+  try {
+    // throws TypeError in strict mode (ES module)
+    api.attributes = {}
+  } catch (error) {}
   assert.ok(api.attributes.path, "won't allow to reassign property")
 
-  api.attributes.path = '/foo'
+  try {
+    // throws TypeError in strict mode (ES module)
+    api.attributes.path = '/foo'
+  } catch (error) {}
   assert.equal(
     api.attributes.path,
     '/',
@@ -62,43 +73,36 @@ QUnit.test('api instance with attributes', function (assert) {
 QUnit.test('api instance with converter', function (assert) {
   assert.expect(3)
 
-  var readConverter = function (value) {
+  const readConverter = function (value) {
     return value.toUpperCase()
   }
 
   // Create a new instance so we don't affect remaining tests...
-  var api = Cookies.withConverter({
+  const api = Cookies.withConverter({
     read: readConverter
   })
 
-  delete api.converter
+  try {
+    // throws TypeError in strict mode (ES module)
+    delete api.converter
+  } catch (error) {}
   assert.ok(api.converter, "won't allow to delete property")
 
-  api.converter = {}
+  try {
+    // throws TypeError in strict mode (ES module)
+    api.converter = {}
+  } catch (error) {}
   assert.ok(api.converter.read, "won't allow to reassign property")
 
-  api.converter.read = function () {}
+  try {
+    // throws TypeError in strict mode (ES module)
+    api.converter.read = function () {}
+  } catch (error) {}
   assert.equal(
     api.converter.read.toString(),
     readConverter.toString(),
     "won't allow to reassign contained properties"
   )
-})
-
-// github.com/js-cookie/js-cookie/pull/171
-QUnit.test('missing leading semicolon', function (assert) {
-  assert.expect(1)
-  var done = assert.async()
-  var iframe = document.createElement('iframe')
-  iframe.src = 'missing_semicolon.html'
-  iframe.addEventListener('load', function () {
-    assert.ok(
-      iframe.contentWindow.__ok,
-      'concatenate with 3rd party script without error'
-    )
-    done()
-  })
-  document.body.appendChild(iframe)
 })
 
 QUnit.module('read', lifecycle)
@@ -174,23 +178,25 @@ QUnit.test('Call to read all when there are cookies', function (assert) {
   )
 })
 
-QUnit.test('Call to read all when there are no cookies at all', function (
-  assert
-) {
-  assert.deepEqual(Cookies.get(), {}, 'returns empty object')
-})
+QUnit.test(
+  'Call to read all when there are no cookies at all',
+  function (assert) {
+    assert.deepEqual(Cookies.get(), {}, 'returns empty object')
+  }
+)
 
-QUnit.test('RFC 6265 - reading cookie-octet enclosed in DQUOTE', function (
-  assert
-) {
-  assert.expect(1)
-  document.cookie = 'c="v"'
-  assert.strictEqual(
-    Cookies.get('c'),
-    'v',
-    'should simply ignore quoted strings'
-  )
-})
+QUnit.test(
+  'RFC 6265 - reading cookie-octet enclosed in DQUOTE',
+  function (assert) {
+    assert.expect(1)
+    document.cookie = 'c="v"'
+    assert.strictEqual(
+      Cookies.get('c'),
+      'v',
+      'should simply ignore quoted strings'
+    )
+  }
+)
 
 // github.com/js-cookie/js-cookie/issues/196
 QUnit.test(
@@ -305,10 +311,10 @@ QUnit.test('undefined', function (assert) {
 
 QUnit.test('expires option as days from now', function (assert) {
   assert.expect(1)
-  var days = 200
-  var expires = new Date(new Date().valueOf() + days * 24 * 60 * 60 * 1000)
-  var expected = 'expires=' + expires.toUTCString()
-  var actual = Cookies.set('c', 'v', { expires: days })
+  const days = 200
+  const expires = new Date(new Date().valueOf() + days * 24 * 60 * 60 * 1000)
+  const expected = 'expires=' + expires.toUTCString()
+  const actual = Cookies.set('c', 'v', { expires: days })
   assert.ok(
     actual.indexOf(expected) !== -1,
     quoted(actual) + ' includes ' + quoted(expected)
@@ -319,9 +325,9 @@ QUnit.test('expires option as days from now', function (assert) {
 QUnit.test('expires option as fraction of a day', function (assert) {
   assert.expect(1)
 
-  var findValueForAttributeName = function (createdCookie, attributeName) {
-    var pairs = createdCookie.split('; ')
-    var foundAttributeValue
+  const findValueForAttributeName = function (createdCookie, attributeName) {
+    const pairs = createdCookie.split('; ')
+    let foundAttributeValue
     pairs.forEach(function (pair) {
       if (pair.split('=')[0] === attributeName) {
         foundAttributeValue = pair.split('=')[1]
@@ -329,20 +335,20 @@ QUnit.test('expires option as fraction of a day', function (assert) {
     })
     return foundAttributeValue
   }
-  var now = new Date()
-  var stringifiedDate = findValueForAttributeName(
+  const now = new Date()
+  const stringifiedDate = findValueForAttributeName(
     Cookies.set('c', 'v', { expires: 0.5 }),
     'expires'
   )
-  var expires = new Date(stringifiedDate)
+  const expires = new Date(stringifiedDate)
 
   // When we were using Date.setDate() fractions have been ignored
   // and expires resulted in the current date. Allow 1000 milliseconds
   // difference for execution time because new Date() can be different,
   // even when it's run synchronously.
   // See https://github.com/js-cookie/js-cookie/commit/ecb597b65e4c477baa2b30a2a5a67fdaee9870ea#commitcomment-20146048.
-  var assertion = expires.getTime() > now.getTime() + 1000
-  var message =
+  const assertion = expires.getTime() > now.getTime() + 1000
+  const message =
     quoted(expires.getTime()) +
     ' should be greater than ' +
     quoted(now.getTime())
@@ -351,10 +357,10 @@ QUnit.test('expires option as fraction of a day', function (assert) {
 
 QUnit.test('expires option as Date instance', function (assert) {
   assert.expect(1)
-  var sevenDaysFromNow = new Date()
+  const sevenDaysFromNow = new Date()
   sevenDaysFromNow.setDate(sevenDaysFromNow.getDate() + 7)
-  var expected = 'expires=' + sevenDaysFromNow.toUTCString()
-  var actual = Cookies.set('c', 'v', { expires: sevenDaysFromNow })
+  const expected = 'expires=' + sevenDaysFromNow.toUTCString()
+  const actual = Cookies.set('c', 'v', { expires: sevenDaysFromNow })
   assert.ok(
     actual.indexOf(expected) !== -1,
     quoted(actual) + ' includes ' + quoted(expected)
@@ -363,8 +369,8 @@ QUnit.test('expires option as Date instance', function (assert) {
 
 QUnit.test('return value', function (assert) {
   assert.expect(1)
-  var expected = 'c=v'
-  var actual = Cookies.set('c', 'v').substring(0, expected.length)
+  const expected = 'c=v'
+  const actual = Cookies.set('c', 'v').substring(0, expected.length)
   assert.strictEqual(actual, expected, 'should return written cookie string')
 })
 
@@ -379,7 +385,7 @@ QUnit.test('predefined path attribute', function (assert) {
 QUnit.test('API for changing defaults', function (assert) {
   assert.expect(3)
 
-  var api
+  let api
 
   api = Cookies.withAttributes({ path: '/foo' })
   assert.ok(
@@ -399,16 +405,16 @@ QUnit.test('API for changing defaults', function (assert) {
 
 QUnit.test('true secure value', function (assert) {
   assert.expect(1)
-  var expected = 'c=v; path=/; secure'
-  var actual = Cookies.set('c', 'v', { secure: true })
+  const expected = 'c=v; path=/; secure'
+  const actual = Cookies.set('c', 'v', { secure: true })
   assert.strictEqual(actual, expected, 'should add secure attribute')
 })
 
 // github.com/js-cookie/js-cookie/pull/54
 QUnit.test('false secure value', function (assert) {
   assert.expect(1)
-  var expected = 'c=v; path=/'
-  var actual = Cookies.set('c', 'v', { secure: false })
+  const expected = 'c=v; path=/'
+  const actual = Cookies.set('c', 'v', { secure: false })
   assert.strictEqual(
     actual,
     expected,
@@ -419,8 +425,8 @@ QUnit.test('false secure value', function (assert) {
 // github.com/js-cookie/js-cookie/issues/276
 QUnit.test('unofficial attribute', function (assert) {
   assert.expect(1)
-  var expected = 'c=v; path=/; unofficial=anything'
-  var actual = Cookies.set('c', 'v', {
+  const expected = 'c=v; path=/; unofficial=anything'
+  const actual = Cookies.set('c', 'v', {
     unofficial: 'anything'
   })
   assert.strictEqual(
@@ -497,7 +503,7 @@ QUnit.test('deletion', function (assert) {
 
 QUnit.test('with attributes', function (assert) {
   assert.expect(1)
-  var attributes = { path: '/' }
+  const attributes = { path: '/' }
   Cookies.set('c', 'v', attributes)
   Cookies.remove('c', attributes)
   assert.strictEqual(document.cookie, '', 'should delete the cookie')
@@ -505,7 +511,7 @@ QUnit.test('with attributes', function (assert) {
 
 QUnit.test('passing attributes reference', function (assert) {
   assert.expect(1)
-  var attributes = { path: '/' }
+  const attributes = { path: '/' }
   Cookies.set('c', 'v', attributes)
   Cookies.remove('c', attributes)
   assert.deepEqual(attributes, { path: '/' }, "won't alter attributes object")
@@ -532,7 +538,7 @@ QUnit.test(
   function (assert) {
     assert.expect(1)
     document.cookie = 'c=%E3'
-    var cookies = Cookies.withConverter({ read: unescape })
+    const cookies = Cookies.withConverter({ read: unescape })
     assert.strictEqual(
       cookies.get('c'),
       'ã',
@@ -548,7 +554,7 @@ QUnit.test(
   'should be able to conditionally decode a single malformed cookie',
   function (assert) {
     assert.expect(2)
-    var cookies = Cookies.withConverter({
+    const cookies = Cookies.withConverter({
       read: function (value, name) {
         if (name === 'escaped') {
           return unescape(value)
@@ -591,7 +597,7 @@ QUnit.test('should be able to set up a write decoder', function (assert) {
 QUnit.test('should be able to set up a read decoder', function (assert) {
   assert.expect(1)
   document.cookie = 'c=%2B'
-  var cookies = Cookies.withConverter({
+  const cookies = Cookies.withConverter({
     read: function (value) {
       return value.replace('%2B', '+')
     }
@@ -602,9 +608,9 @@ QUnit.test('should be able to set up a read decoder', function (assert) {
 QUnit.test('should be able to extend read decoder', function (assert) {
   assert.expect(1)
   document.cookie = 'c=A%23'
-  var cookies = Cookies.withConverter({
+  const cookies = Cookies.withConverter({
     read: function (value) {
-      var decoded = value.replace('A', 'a')
+      const decoded = value.replace('A', 'a')
       return Cookies.converter.read(decoded)
     }
   })
@@ -615,7 +621,7 @@ QUnit.test('should be able to extend write decoder', function (assert) {
   assert.expect(1)
   Cookies.withConverter({
     write: function (value) {
-      var encoded = value.replace('a', 'A')
+      const encoded = value.replace('a', 'A')
       return Cookies.converter.write(encoded)
     }
   }).set('c', 'a%')
@@ -626,33 +632,19 @@ QUnit.test('should be able to extend write decoder', function (assert) {
   )
 })
 
-QUnit.test('should be able to convert incoming, non-String values', function (
-  assert
-) {
-  assert.expect(1)
-  Cookies.withConverter({
-    write: function (value) {
-      return JSON.stringify(value)
-    }
-  }).set('c', { foo: 'bar' })
-  assert.strictEqual(
-    document.cookie,
-    'c={"foo":"bar"}',
-    'should convert object as JSON string'
-  )
-})
-
-QUnit.module('noConflict', lifecycle)
-
-QUnit.test('do not conflict with existent globals', function (assert) {
-  assert.expect(2)
-  var Cookies = window.Cookies.noConflict()
-  Cookies.set('c', 'v')
-  assert.strictEqual(Cookies.get('c'), 'v', 'should work correctly')
-  assert.strictEqual(
-    window.Cookies,
-    'existent global',
-    'should restore the original global'
-  )
-  window.Cookies = Cookies
-})
+QUnit.test(
+  'should be able to convert incoming, non-String values',
+  function (assert) {
+    assert.expect(1)
+    Cookies.withConverter({
+      write: function (value) {
+        return JSON.stringify(value)
+      }
+    }).set('c', { foo: 'bar' })
+    assert.strictEqual(
+      document.cookie,
+      'c={"foo":"bar"}',
+      'should convert object as JSON string'
+    )
+  }
+)

@@ -1,75 +1,37 @@
-<p align="center">
-  <img src="https://cloud.githubusercontent.com/assets/835857/14581711/ba623018-0436-11e6-8fce-d2ccd4d379c9.gif">
-</p>
+# TypeScript Cookie [![Build Status](https://travis-ci.com/ts-cookie/ts-cookie.svg?branch=master)](https://travis-ci.com/ts-cookie/ts-cookie) [![BrowserStack Status](https://www.browserstack.com/automate/badge.svg?badge_key=b3VDaHAxVDg0NDdCRmtUOWg0SlQzK2NsRVhWTjlDQS9qdGJoak1GMzJiVT0tLVhwZHNvdGRoY284YVRrRnI3eU1JTnc9PQ==--5e88ffb3ca116001d7ef2cfb97a4128ac31174c2)](https://www.browserstack.com/automate/public-build/b3VDaHAxVDg0NDdCRmtUOWg0SlQzK2NsRVhWTjlDQS9qdGJoak1GMzJiVT0tLVhwZHNvdGRoY284YVRrRnI3eU1JTnc9PQ==--5e88ffb3ca116001d7ef2cfb97a4128ac31174c2) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com) [![Code Climate](https://codeclimate.com/github/ts-cookie/ts-cookie.svg)](https://codeclimate.com/github/ts-cookie/ts-cookie) [![npm](https://img.shields.io/github/package-json/v/ts-cookie/ts-cookie)](https://www.npmjs.com/package/ts-cookie) [![size](https://img.shields.io/bundlephobia/minzip/ts-cookie/rc)](https://www.npmjs.com/package/ts-cookie) [![jsDelivr Hits](https://data.jsdelivr.com/v1/package/npm/ts-cookie/badge?style=rounded)](https://www.jsdelivr.com/package/npm/ts-cookie)
 
-# JavaScript Cookie [![Build Status](https://travis-ci.com/js-cookie/js-cookie.svg?branch=master)](https://travis-ci.com/js-cookie/js-cookie) [![BrowserStack Status](https://www.browserstack.com/automate/badge.svg?badge_key=b3VDaHAxVDg0NDdCRmtUOWg0SlQzK2NsRVhWTjlDQS9qdGJoak1GMzJiVT0tLVhwZHNvdGRoY284YVRrRnI3eU1JTnc9PQ==--5e88ffb3ca116001d7ef2cfb97a4128ac31174c2)](https://www.browserstack.com/automate/public-build/b3VDaHAxVDg0NDdCRmtUOWg0SlQzK2NsRVhWTjlDQS9qdGJoak1GMzJiVT0tLVhwZHNvdGRoY284YVRrRnI3eU1JTnc9PQ==--5e88ffb3ca116001d7ef2cfb97a4128ac31174c2) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com) [![Code Climate](https://codeclimate.com/github/js-cookie/js-cookie.svg)](https://codeclimate.com/github/js-cookie/js-cookie) [![npm](https://img.shields.io/github/package-json/v/js-cookie/js-cookie)](https://www.npmjs.com/package/js-cookie) [![size](https://img.shields.io/bundlephobia/minzip/js-cookie/rc)](https://www.npmjs.com/package/js-cookie) [![jsDelivr Hits](https://data.jsdelivr.com/v1/package/npm/js-cookie/badge?style=rounded)](https://www.jsdelivr.com/package/npm/js-cookie)
+A simple, lightweight TypeScript API for handling cookies
 
-A simple, lightweight JavaScript API for handling cookies
+## Goals
 
-- Works in [all](https://www.browserstack.com/automate/public-build/b3VDaHAxVDg0NDdCRmtUOWg0SlQzK2NsRVhWTjlDQS9qdGJoak1GMzJiVT0tLVhwZHNvdGRoY284YVRrRnI3eU1JTnc9PQ==--5e88ffb3ca116001d7ef2cfb97a4128ac31174c2) browsers
+- Modernize all the things, opiniated, no compromise
+- TypeScript
+- Remove grunt in favor of `npm run`
+- Use Jest for testing
+- Support for ES modules only
+- Think js-cookie 4.0
+
+## Features
+
 - Accepts [any](#encoding) character
 - [Heavily](test) tested
 - No dependency
 - Supports ES modules
-- Supports AMD/CommonJS
 - [RFC 6265](https://tools.ietf.org/html/rfc6265) compliant
-- Useful [Wiki](https://github.com/js-cookie/js-cookie/wiki)
 - Enable [custom encoding/decoding](#converters)
 - **< 800 bytes** gzipped!
 
-**👉👉 If you're viewing this at https://github.com/js-cookie/js-cookie, you're reading the documentation for the master branch.
-[View documentation for the latest release.](https://github.com/js-cookie/js-cookie/tree/latest#readme) 👈👈**
+**👉👉 If you're viewing this at https://github.com/ts-cookie/ts-cookie, you're reading the documentation for the master branch.
+[View documentation for the latest release.](https://github.com/ts-cookie/ts-cookie/tree/latest#readme) 👈👈**
 
 ## Installation
 
 ### NPM
 
-JavaScript Cookie supports [npm](https://www.npmjs.com/package/js-cookie) under the name `js-cookie`.
+JavaScript Cookie supports [npm](https://www.npmjs.com/package/ts-cookie) under the name `ts-cookie`.
 
 ```
-$ npm i js-cookie
-```
-
-The npm package has a `module` field pointing to an ES module variant of the library, mainly to provide support for ES module aware bundlers, whereas its `browser` field points to an UMD module for full backward compatibility.
-
-### Direct download
-
-Starting with version 3 [releases](https://github.com/js-cookie/js-cookie/releases) are distributed with two variants of this library, an ES module as well as an UMD module.
-
-Note the different extensions: `.mjs` denotes the ES module, whereas `.js` is the UMD one.
-
-Example for how to load the ES module in a browser:
-
-```html
-<script type="module" src="/path/to/js.cookie.mjs"></script>
-<script type="module">
-  import Cookies from '/path/to/js.cookie.mjs'
-
-  Cookies.set('foo', 'bar')
-</script>
-```
-
-_Not all browsers support ES modules natively yet_. For this reason the npm package/release provides both the ES and UMD module variant and you may want to include the ES module along with the UMD fallback to account for this:
-
-```html
-<script type="module" src="/path/to/js.cookie.mjs"></script>
-<script nomodule defer src="/path/to/js.cookie.js"></script>
-```
-
-Here we're loading the nomodule script in a deferred fashion, because ES modules are deferred by default. This may not be strictly necessary depending on how you're using the library.
-
-### CDN
-
-Alternatively, include it via [jsDelivr CDN](https://www.jsdelivr.com/package/npm/js-cookie).
-
-## ES Module
-
-Example for how to import the ES module from another module:
-
-```javascript
-import Cookies from 'js-cookie'
-
-Cookies.set('foo', 'bar')
+$ npm i ts-cookie
 ```
 
 ## Basic Usage
@@ -137,25 +99,13 @@ Cookies.remove('name', { path: '', domain: '.yourdomain.com' })
 
 _Note: Removing a nonexistent cookie neither raises any exception nor returns any value._
 
-## Namespace conflicts
-
-If there is any danger of a conflict with the namespace `Cookies`, the `noConflict` method will allow you to define a new namespace and preserve the original one. This is especially useful when running the script on third party sites e.g. as part of a widget or SDK.
-
-```javascript
-// Assign the js-cookie api to a different variable and restore the original "window.Cookies"
-var Cookies2 = Cookies.noConflict()
-Cookies2.set('name', 'value')
-```
-
-_Note: The `.noConflict` method is not necessary when using AMD or CommonJS, thus it is not exposed in those environments._
-
 ## Encoding
 
 This project is [RFC 6265](http://tools.ietf.org/html/rfc6265#section-4.1.1) compliant. All special characters that are not allowed in the cookie-name or cookie-value are encoded with each one's UTF-8 Hex equivalent using [percent-encoding](http://en.wikipedia.org/wiki/Percent-encoding).  
 The only character in cookie-name or cookie-value that is allowed and still encoded is the percent `%` character, it is escaped in order to interpret percent input as literal.  
-Please note that the default encoding/decoding strategy is meant to be interoperable [only between cookies that are read/written by js-cookie](https://github.com/js-cookie/js-cookie/pull/200#discussion_r63270778). To override the default encoding/decoding strategy you need to use a [converter](#converters).
+Please note that the default encoding/decoding strategy is meant to be interoperable [only between cookies that are read/written by ts-cookie](https://github.com/ts-cookie/ts-cookie/pull/200#discussion_r63270778). To override the default encoding/decoding strategy you need to use a [converter](#converters).
 
-_Note: According to [RFC 6265](https://tools.ietf.org/html/rfc6265#section-6.1), your cookies may get deleted if they are too big or there are too many cookies in the same domain, [more details here](https://github.com/js-cookie/js-cookie/wiki/Frequently-Asked-Questions#why-are-my-cookies-being-deleted)._
+_Note: According to [RFC 6265](https://tools.ietf.org/html/rfc6265#section-6.1), your cookies may get deleted if they are too big or there are too many cookies in the same domain, [more details here](https://github.com/ts-cookie/ts-cookie/wiki/Frequently-Asked-Questions#why-are-my-cookies-being-deleted)._
 
 ## Cookie Attributes
 
@@ -165,7 +115,7 @@ Cookie attribute defaults can be set globally by creating an instance of the api
 
 Define when the cookie will be removed. Value must be a [`Number`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) which will be interpreted as days from time of creation or a [`Date`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) instance. If omitted, the cookie becomes a session cookie.
 
-To create a cookie that expires in less than a day, you can check the [FAQ on the Wiki](https://github.com/js-cookie/js-cookie/wiki/Frequently-Asked-Questions#expire-cookies-in-less-than-a-day).
+To create a cookie that expires in less than a day, you can check the [FAQ on the Wiki](https://github.com/ts-cookie/ts-cookie/wiki/Frequently-Asked-Questions#expire-cookies-in-less-than-a-day).
 
 **Default:** Cookie is removed when the user closes the browser.
 
@@ -191,16 +141,6 @@ Cookies.get('name') // => 'value'
 Cookies.remove('name', { path: '' })
 ```
 
-**Note regarding Internet Explorer:**
-
-> Due to an obscure bug in the underlying WinINET InternetGetCookie implementation, IE’s document.cookie will not return a cookie if it was set with a path attribute containing a filename.
-
-(From [Internet Explorer Cookie Internals (FAQ)](http://blogs.msdn.com/b/ieinternals/archive/2009/08/20/wininet-ie-cookie-internals-faq.aspx))
-
-This means one cannot set a path using `window.location.pathname` in case such pathname contains a filename like so: `/check.html` (or at least, such cookie cannot be read correctly).
-
-In fact, you should never allow untrusted input to set the cookie attributes or you might be exposed to a [XSS attack](https://github.com/js-cookie/js-cookie/issues/396).
-
 ### domain
 
 A [`String`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) indicating a valid domain where the cookie should be visible. The cookie will also be visible to all subdomains.
@@ -215,16 +155,6 @@ Assuming a cookie that is being created on `site.com`:
 Cookies.set('name', 'value', { domain: 'subdomain.site.com' })
 Cookies.get('name') // => undefined (need to read at 'subdomain.site.com')
 ```
-
-**Note regarding Internet Explorer default behavior:**
-
-> Q3: If I don’t specify a DOMAIN attribute (for) a cookie, IE sends it to all nested subdomains anyway?  
-> A: Yes, a cookie set on example.com will be sent to sub2.sub1.example.com.  
-> Internet Explorer differs from other browsers in this regard.
-
-(From [Internet Explorer Cookie Internals (FAQ)](http://blogs.msdn.com/b/ieinternals/archive/2009/08/20/wininet-ie-cookie-internals-faq.aspx))
-
-This means that if you omit the `domain` attribute, it will be visible for a subdomain in IE.
 
 ### secure
 
@@ -280,7 +210,7 @@ var cookies = Cookies.withConverter({
     }
     // Fall back to default for all other cookies
     return Cookies.converter.read(value, name)
-  }
+  },
 })
 cookies.get('escaped') // 北
 cookies.get('default') // 北
@@ -295,19 +225,9 @@ Create a new instance of the api that overrides the default encoding implementat
 Cookies.withConverter({
   write: function (value, name) {
     return value.toUpperCase()
-  }
+  },
 })
 ```
-
-## TypeScript declarations
-
-```
-$ npm i @types/js-cookie
-```
-
-## Server-side integration
-
-Check out the [Servers Docs](SERVER_SIDE.md)
 
 ## Contributing
 
@@ -315,7 +235,7 @@ Check out the [Contributing Guidelines](CONTRIBUTING.md)
 
 ## Security
 
-For vulnerability reports, send an e-mail to `js-cookie at googlegroups dot com`
+For vulnerability reports, send an e-mail to `ts-cookie at googlegroups dot com`
 
 ## Releasing
 
@@ -339,13 +259,7 @@ _GitHub releases are created as a draft and need to be published manually!
 ## Supporters
 
 <p>
-  <a href="https://www.browserstack.com/"><img src="https://raw.githubusercontent.com/wiki/js-cookie/js-cookie/Browserstack-logo%402x.png" width="150"></a>
+  <a href="https://www.browserstack.com/"><img src="https://raw.githubusercontent.com/wiki/ts-cookie/ts-cookie/Browserstack-logo%402x.png" width="150"></a>
 </p>
 
 Many thanks to [BrowserStack](https://www.browserstack.com/) for providing unlimited browser testing free of cost.
-
-## Authors
-
-- [Klaus Hartl](https://github.com/carhartl)
-- [Fagner Brack](https://github.com/FagnerMartinsBrack)
-- And awesome [contributors](https://github.com/js-cookie/js-cookie/graphs/contributors)

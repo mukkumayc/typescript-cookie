@@ -1,11 +1,5 @@
-addons:
-  browserstack:
-    username: ${BROWSERSTACK_USERNAME}
-    access_key: ${BROWSERSTACK_ACCESS_KEY}
-    forcelocal: true
 language: node_js
 node_js:
-  - 12
   - 14
   - 16
 cache:
@@ -13,10 +7,3 @@ cache:
     - node_modules
 stages:
   - test
-  - name: browserstack
-    if: fork IS false
-jobs:
-  include:
-    - stage: browserstack
-      node_js: '14'
-      script: grunt browserstack

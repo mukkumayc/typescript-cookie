@@ -14,18 +14,9 @@ export default [
   {
     input: 'src/api.mjs',
     output: [
-      // config for <script type="module">
       {
         file: pkg.module,
         format: 'esm'
-      },
-      // config for <script nomodule>
-      {
-        file: pkg.browser,
-        format: 'umd',
-        name: 'Cookies',
-        noConflict: true,
-        banner: ';'
       }
     ],
     plugins: [licenseBanner]
@@ -33,17 +24,9 @@ export default [
   {
     input: 'src/api.mjs',
     output: [
-      // config for <script type="module">
       {
         file: pkg.module.replace('.mjs', '.min.mjs'),
         format: 'esm'
-      },
-      // config for <script nomodule>
-      {
-        file: pkg.browser.replace('.js', '.min.js'),
-        format: 'umd',
-        name: 'Cookies',
-        noConflict: true
       }
     ],
     plugins: [

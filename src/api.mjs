@@ -1,4 +1,3 @@
-import assign from './assign.mjs'
 import defaultConverter from './converter.mjs'
 
 function init (converter, defaultAttributes) {
@@ -7,7 +6,7 @@ function init (converter, defaultAttributes) {
       return
     }
 
-    attributes = assign({}, defaultAttributes, attributes)
+    attributes = Object.assign({}, defaultAttributes, attributes)
 
     if (typeof attributes.expires === 'number') {
       attributes.expires = new Date(Date.now() + attributes.expires * 864e5)
@@ -22,8 +21,8 @@ function init (converter, defaultAttributes) {
 
     value = converter.write(value, key)
 
-    var stringifiedAttributes = ''
-    for (var attributeName in attributes) {
+    let stringifiedAttributes = ''
+    for (const attributeName in attributes) {
       if (!attributes[attributeName]) {
         continue
       }
@@ -54,18 +53,18 @@ function init (converter, defaultAttributes) {
 
     // To prevent the for loop in the first place assign an empty array
     // in case there are no cookies at all.
-    var cookies = document.cookie ? document.cookie.split('; ') : []
-    var jar = {}
-    for (var i = 0; i < cookies.length; i++) {
-      var parts = cookies[i].split('=')
-      var value = parts.slice(1).join('=')
+    const cookies = document.cookie ? document.cookie.split('; ') : []
+    const jar = {}
+    for (let i = 0; i < cookies.length; i++) {
+      const parts = cookies[i].split('=')
+      let value = parts.slice(1).join('=')
 
       if (value[0] === '"') {
         value = value.slice(1, -1)
       }
 
       try {
-        var foundKey = defaultConverter.read(parts[0])
+        const foundKey = defaultConverter.read(parts[0])
         jar[foundKey] = converter.read(value, foundKey)
 
         if (key === foundKey) {
@@ -85,16 +84,22 @@ function init (converter, defaultAttributes) {
         set(
           key,
           '',
-          assign({}, attributes, {
+          Object.assign({}, attributes, {
             expires: -1
           })
         )
       },
       withAttributes: function (attributes) {
-        return init(this.converter, assign({}, this.attributes, attributes))
+        return init(
+          this.converter,
+          Object.assign({}, this.attributes, attributes)
+        )
       },
       withConverter: function (converter) {
-        return init(assign({}, this.converter, converter), this.attributes)
+        return init(
+          Object.assign({}, this.converter, converter),
+          this.attributes
+        )
       }
     },
     {
