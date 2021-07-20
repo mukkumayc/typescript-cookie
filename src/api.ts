@@ -1,37 +1,5 @@
+import { CookieAttributes, CookieConverter, Cookies } from '../types/index'
 import defaultConverter from './converter'
-
-type CookieAttributes = object & {
-  path?: string
-  domain?: string
-  expires?: number | Date
-  sameSite?: string
-  secure?: boolean
-  [property: string]: any
-}
-
-type CookieConverter = object & {
-  read: (value: string, name: string) => string
-  write: (value: string | number | boolean, name: string) => string
-}
-
-type CookiesConfig = object & {
-  converter: CookieConverter
-  attributes: CookieAttributes
-}
-
-type CookiesApi = object & {
-  set: (
-    name: any,
-    value: string | number | boolean,
-    attributes?: CookieAttributes
-  ) => string | undefined
-  get: (name?: string) => string | object | undefined
-  remove: (name: string, attributes?: CookieAttributes) => void
-  withAttributes: (attributes: CookieAttributes) => Cookies
-  withConverter: (converter: CookieConverter) => Cookies
-}
-
-type Cookies = CookiesConfig | CookiesApi
 
 function init (
   converter: CookieConverter,
