@@ -22,7 +22,8 @@
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest --ci",
     "lint": "npx standard && npx ts-standard",
     "format": "npx prettier -l --write --single-quote --no-semi '**/*.{html,js,json,md,mjs,ts,yml}' && npx standard --fix && npx ts-standard --fix",
-    "build": "rm -rf dist/* && rollup -c && tsc --emitDeclarationOnly --declarationDir dist",
+    "build": "npm run clean && rollup -c && tsc --emitDeclarationOnly --declarationDir dist",
+    "clean": "rm -rf dist/*",
     "release": "release-it"
   },
   "repository": {
