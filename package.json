@@ -19,7 +19,7 @@
   ],
   "scripts": {
     "pretest": "npm run build",
-    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest",
+    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest --ci",
     "lint": "npx standard && npx ts-standard",
     "format": "npx prettier -l --write --single-quote --no-semi '**/*.{html,js,json,md,mjs,ts,yml}' && npx standard --fix && npx ts-standard --fix",
     "build": "rm -rf dist/* && rollup -c",
