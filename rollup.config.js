@@ -1,3 +1,4 @@
+import typescript from '@rollup/plugin-typescript'
 import { terser } from 'rollup-plugin-terser'
 import filesize from 'rollup-plugin-filesize'
 import license from 'rollup-plugin-license'
@@ -12,17 +13,17 @@ const licenseBanner = license({
 
 export default [
   {
-    input: 'src/api.mjs',
+    input: 'src/api.ts',
     output: [
       {
         file: pkg.module,
         format: 'esm'
       }
     ],
-    plugins: [licenseBanner]
+    plugins: [typescript(), licenseBanner]
   },
   {
-    input: 'src/api.mjs',
+    input: 'src/api.ts',
     output: [
       {
         file: pkg.module.replace('.mjs', '.min.mjs'),
@@ -30,6 +31,7 @@ export default [
       }
     ],
     plugins: [
+      typescript(),
       terser(),
       licenseBanner, // must be applied after terser, otherwise it's being stripped away...
       filesize()

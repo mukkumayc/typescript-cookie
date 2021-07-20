@@ -18,11 +18,11 @@
     "client"
   ],
   "scripts": {
-    "pretest": "npm run dist",
+    "pretest": "npm run build",
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest",
-    "lint": "npx standard",
-    "format": "npx prettier -l --write --single-quote --no-semi '**/*.{html,js,json,md,mjs,ts,yml}' && npx standard --fix",
-    "dist": "rm -rf dist/* && rollup -c",
+    "lint": "npx standard && npx ts-standard",
+    "format": "npx prettier -l --write --single-quote --no-semi '**/*.{html,js,json,md,mjs,ts,yml}' && npx standard --fix && npx ts-standard --fix",
+    "build": "rm -rf dist/* && rollup -c",
     "release": "release-it"
   },
   "repository": {
@@ -36,6 +36,7 @@
   "author": "Klaus Hartl",
   "license": "MIT",
   "devDependencies": {
+    "@rollup/plugin-typescript": "^8.2.3",
     "eslint": "^7.30.0",
     "eslint-config-standard": "^16.0.3",
     "eslint-plugin-html": "^6.0.0",
@@ -49,6 +50,7 @@
     "rollup-plugin-terser": "^7.0.2",
     "standard": "^16.0.3",
     "ts-node": "^10.1.0",
+    "ts-standard": "^10.0.0",
     "typescript": "^4.3.5"
   },
   "engines": {
