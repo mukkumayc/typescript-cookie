@@ -1,4 +1,6 @@
+/* @jest-environment node */
 /* global test, expect */
+
 import Cookies from '../dist/js.cookie.mjs'
 
 test('should load the Cookies API', () => {
