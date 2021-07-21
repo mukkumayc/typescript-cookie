@@ -1,113 +1,47 @@
 import { CookieAttributes, CookieConverter, Cookies } from '../types/index'
+import set from './set'
+import get from './get'
 import defaultConverter from './converter'
 
 function init (
   converter: CookieConverter,
   defaultAttributes: CookieAttributes
 ): Cookies {
-  function set (
-    key: string,
-    value: string | number | boolean,
-    attributes?: CookieAttributes
-  ): string | undefined {
-    if (typeof document === 'undefined') {
-      return
-    }
-
-    key = encodeURIComponent(key)
-      .replace(/%(2[346B]|5E|60|7C)/g, decodeURIComponent)
-      .replace(/[()]/g, escape)
-
-    value = converter.write(value, key)
-
-    let stringifiedAttributes: string = ''
-    const stringifiable: object & { [property: string]: any } = Object.assign(
-      {},
-      defaultAttributes,
-      attributes
-    )
-
-    if (typeof stringifiable.expires === 'number') {
-      stringifiable.expires = new Date(
-        Date.now() + stringifiable.expires * 864e5
-      )
-    }
-    if (stringifiable.expires != null) {
-      stringifiable.expires = stringifiable.expires.toUTCString()
-    }
-
-    for (const attributeName in stringifiable) {
-      if (
-        stringifiable[attributeName] == null ||
-        stringifiable[attributeName] === false
-      ) {
-        continue
-      }
-
-      stringifiedAttributes += `; ${attributeName}`
-
-      if (stringifiable[attributeName] === true) {
-        continue
-      }
-
-      // Considers RFC 6265 section 5.2:
-      // ...
-      // 3.  If the remaining unparsed-attributes contains a %x3B (";")
-      //     character:
-      // Consume the characters of the unparsed-attributes up to,
-      // not including, the first %x3B (";") character.
-      // ...
-      const attributeValue: string = stringifiable[attributeName].split(';')[0]
-      stringifiedAttributes += `=${attributeValue}`
-    }
-
-    return (document.cookie = `${key}=${value}${stringifiedAttributes}`)
-  }
-
-  function get (key?: string): string | object | undefined {
-    if (
-      typeof document === 'undefined' ||
-      (arguments.length > 0 && key == null)
-    ) {
-      return
-    }
-
-    // To prevent the for loop in the first place assign an empty array
-    // in case there are no cookies at all.
-    const cookies: string[] =
-      document.cookie.length > 0 ? document.cookie.split('; ') : []
-    const jar: object & { [property: string]: any } = {}
-    for (let i = 0; i < cookies.length; i++) {
-      const parts: string[] = cookies[i].split('=')
-      let value: string = parts.slice(1).join('=')
-
-      if (value[0] === '"') {
-        value = value.slice(1, -1)
-      }
-
-      try {
-        const foundKey: string = defaultConverter.read(parts[0])
-        jar[foundKey] = converter.read(value, foundKey)
-
-        if (key === foundKey) {
-          break
-        }
-      } catch (e) {}
-    }
-
-    return key != null ? jar[key] : jar
-  }
-
   const api: any = {
-    set: set,
-    get: get,
-    remove: (key: string, attributes?: CookieAttributes): void => {
+    set: function (
+      key: string,
+      value: string | number | boolean,
+      attributes?: CookieAttributes
+    ): string | undefined {
+      if (typeof document === 'undefined') {
+        return
+      }
+
+      return set(
+        key,
+        value as string,
+        Object.assign({}, this.attributes, attributes),
+        this.converter
+      )
+    },
+    get: function (key?: string): string | object | undefined {
+      if (
+        typeof document === 'undefined' ||
+        (arguments.length > 0 && key == null)
+      ) {
+        return
+      }
+
+      return get(key, this.converter)
+    },
+    remove: function (key: string, attributes?: CookieAttributes): void {
       set(
         key,
         '',
-        Object.assign({}, attributes, {
+        Object.assign({}, this.attributes, attributes, {
           expires: -1
-        })
+        }),
+        this.converter
       )
     },
     withAttributes: function (attributes: CookieAttributes): Cookies {
