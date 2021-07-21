@@ -35,13 +35,12 @@ function init (
       return get(key, this.converter)
     },
     remove: function (key: string, attributes?: CookieAttributes): void {
-      set(
+      this.set(
         key,
         '',
         Object.assign({}, this.attributes, attributes, {
           expires: -1
-        }),
-        this.converter
+        })
       )
     },
     withAttributes: function (attributes: CookieAttributes): Cookies {
