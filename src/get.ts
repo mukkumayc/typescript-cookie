@@ -4,12 +4,12 @@ import defaultConverter from './converter'
 export default function (
   key: string | undefined,
   converter: CookieConverter
-): string | object | undefined {
+): string | (object & { [property: string]: string }) {
   // To prevent the for loop in the first place assign an empty array
   // in case there are no cookies at all.
   const cookies: string[] =
     document.cookie.length > 0 ? document.cookie.split('; ') : []
-  const jar: object & { [property: string]: any } = {}
+  const jar: object & { [property: string]: string } = {}
   for (let i = 0; i < cookies.length; i++) {
     const parts: string[] = cookies[i].split('=')
     let value: string = parts.slice(1).join('=')

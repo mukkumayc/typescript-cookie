@@ -8,19 +8,19 @@ export type CookieAttributes = object & {
 }
 
 export type CookieConverter = object & {
-  read: (value: string, name: string) => string
-  write: (value: string | number | boolean, name: string) => string
+  read: (value: string, name: string) => any
+  write: (value: any, name: string) => string
 }
 
 type CookiesConfig = object & {
-  converter: CookieConverter
-  attributes: CookieAttributes
+  readonly converter: CookieConverter
+  readonly attributes: CookieAttributes
 }
 
 type CookiesApi = object & {
   set: (
-    name: any,
-    value: string | number | boolean,
+    name: string,
+    value: any,
     attributes?: CookieAttributes
   ) => string | undefined
   get: (name?: string) => string | object | undefined
