@@ -29,4 +29,4 @@ type CookiesApi = object & {
   withConverter: (converter: CookieConverter) => Cookies
 }
 
-export type Cookies = CookiesConfig | CookiesApi
+export type Cookies = CookiesConfig & CookiesApi
