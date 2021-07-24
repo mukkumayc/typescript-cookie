@@ -1,9 +1,12 @@
-/* global test, expect */
+/* global test, expect, afterEach */
 
 import get from '../src/get'
 import converter from '../src/converter'
 
-// TODO: cleanup cookies after each
+afterEach(() => {
+  // Clean up test cookie!
+  document.cookie = 'c=v; expires=Thu, 01 Jan 1970 00:00:00 GMT'
+})
 
 test('simple value', () => {
   document.cookie = 'c=v'
