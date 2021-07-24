@@ -229,9 +229,17 @@ Cookies.withConverter({
 })
 ```
 
-## Contributing
+## Testing
 
-Check out the [Contributing Guidelines](CONTRIBUTING.md)
+```
+$ npm test
+```
+
+Or run tests continously:
+
+```
+$ npm test -- --watch
+```
 
 ## Security
 
