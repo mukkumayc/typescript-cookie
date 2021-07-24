@@ -18,7 +18,6 @@
     "client"
   ],
   "scripts": {
-    "pretest": "npm run build",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest --ci",
     "lint": "standard && ts-standard",
     "format": "prettier -l --write --single-quote --no-semi '**/*.{html,js,json,md,mjs,ts,yml}' && standard --fix && ts-standard --fix",
