@@ -1,12 +1,12 @@
-/* @jest-environment node */
 /* global test, expect */
+/* @jest-environment node */
 
 import Cookies from '../dist/js.cookie.mjs'
 
 test('should load the Cookies API', () => {
-  expect(Cookies.get).not.toBe(undefined)
-  expect(Cookies.set).not.toBe(undefined)
-  expect(Cookies.remove).not.toBe(undefined)
+  expect(Cookies.get).not.toBeUndefined()
+  expect(Cookies.set).not.toBeUndefined()
+  expect(Cookies.remove).not.toBeUndefined()
 })
 
 test('should not throw error when attempting to set cookie', () => {
