@@ -1,16 +1,16 @@
-import { CookieConverter } from '../types/index'
+import { WriteConverter } from '../types/index'
 
 export default function (
   key: string,
   value: string,
   attributes: object & { [property: string]: any },
-  converter: CookieConverter
+  converter: WriteConverter
 ): string {
   key = encodeURIComponent(key)
     .replace(/%(2[346B]|5E|60|7C)/g, decodeURIComponent)
     .replace(/[()]/g, escape)
 
-  value = converter.write(value, key)
+  value = converter(value, key)
 
   if (typeof attributes.expires === 'number') {
     attributes.expires = new Date(Date.now() + attributes.expires * 864e5)

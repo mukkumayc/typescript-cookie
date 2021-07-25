@@ -21,7 +21,7 @@ function init (
         key,
         value as string,
         Object.assign({}, this.attributes, attributes),
-        this.converter
+        this.converter.write
       )
     },
     get: function (key?: string): string | object | undefined {
@@ -32,7 +32,7 @@ function init (
         return
       }
 
-      return get(key, this.converter)
+      return get(key, this.converter.read)
     },
     remove: function (key: string, attributes?: CookieAttributes): void {
       this.set(

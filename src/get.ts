@@ -1,9 +1,9 @@
-import { CookieConverter } from '../types/index'
+import { ReadConverter } from '../types/index'
 import defaultConverter from './converter'
 
 export default function (
   key: string | undefined,
-  converter: CookieConverter
+  converter: ReadConverter
 ): string | (object & { [property: string]: string }) {
   // To prevent the for loop in the first place assign an empty array
   // in case there are no cookies at all.
@@ -20,7 +20,7 @@ export default function (
 
     try {
       const foundKey: string = defaultConverter.read(parts[0])
-      jar[foundKey] = converter.read(value, foundKey)
+      jar[foundKey] = converter(value, foundKey)
 
       if (key === foundKey) {
         break

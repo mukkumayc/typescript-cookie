@@ -1,7 +1,7 @@
 /* global test, expect, afterEach */
 
 import get from '../src/get'
-import converter from '../src/converter'
+import { read } from '../src/converter'
 
 afterEach(() => {
   // Clean up test cookie!
@@ -10,14 +10,14 @@ afterEach(() => {
 
 test('simple value', () => {
   document.cookie = 'c=v'
-  expect(get('c', converter)).toBe('v')
+  expect(get('c', read)).toBe('v')
 })
 
 test('not existing', () => {
-  expect(get('whatever', converter)).toBeUndefined()
+  expect(get('whatever', read)).toBeUndefined()
 })
 
 test('equality sign in cookie value', () => {
   document.cookie = 'c=foo=bar'
-  expect(get('c', converter)).toBe('foo=bar')
+  expect(get('c', read)).toBe('foo=bar')
 })
