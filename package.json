@@ -18,7 +18,7 @@
     "client"
   ],
   "scripts": {
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest --ci",
+    "test": "jest --ci",
     "lint": "standard && ts-standard",
     "format": "prettier -l --write --single-quote --no-semi '**/*.{html,js,json,md,mjs,ts,yml}' && standard --fix && ts-standard --fix",
     "build": "npm run clean && rollup -c && tsc --emitDeclarationOnly --declarationDir dist",
