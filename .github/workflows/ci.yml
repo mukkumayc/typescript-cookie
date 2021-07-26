@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     strategy:
@@ -24,3 +24,19 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm test
+
+  coverage:
+    needs: [test]
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'
+      - run: npm ci
+      - uses: paambaati/codeclimate-action@v2.7.5
+        env:
+          CC_TEST_REPORTER_ID: a6dc2e6013b0c4a1e2b951d3c52db3aa073fba67319bdf0d49fe67c030aac2a0
+        with:
+          coverageCommand: npm run coverage
