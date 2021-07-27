@@ -3,7 +3,7 @@ name: 'BrowserStack Test'
 on: [push, pull_request]
 
 jobs:
-  setup:
+  e2e-test:
     runs-on: ubuntu-latest
 
     steps:
