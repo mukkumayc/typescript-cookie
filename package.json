@@ -19,7 +19,7 @@
   ],
   "scripts": {
     "test": "jest --ci",
-    "test:e2e": "jest test/browser.e2e.js",
+    "test:e2e": "jest --config '{\"testMatch\":[\"**/?(*.)e2e.js\"]}' test/browser.e2e.js",
     "coverage": "jest --coverage",
     "lint": "standard && ts-standard",
     "format": "prettier -l --write --single-quote --no-semi '**/*.{html,js,json,md,mjs,ts,yml}' && standard --fix && ts-standard --fix",
