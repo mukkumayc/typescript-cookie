@@ -1,3 +1,4 @@
+/* global beforeAll, afterAll, test, expect */
 const webdriver = require('selenium-webdriver')
 
 // Input capabilities
@@ -19,10 +20,16 @@ const driver = new webdriver.Builder()
   .withCapabilities(capabilities)
   .build()
 
-// HTTP Server should be running on 8099 port of GitHub runner
-driver.get('http://localhost:8099/test/browser.e2e.html').then(function () {
-  driver.getTitle().then(function (title) {
-    console.log(title)
-    driver.quit()
-  })
+beforeAll(async () => {
+  // HTTP Server should be running on 8099 port of GitHub runner
+  driver.get('http://localhost:8099/test/browser.e2e.html')
+}, 20000)
+
+afterAll(async () => {
+  await driver.quit()
 })
+
+test('test something', async () => {
+  const title = await driver.getTitle()
+  expect(title).toBe('BrowserStack Tests')
+}, 5000)
