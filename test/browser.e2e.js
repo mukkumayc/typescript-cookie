@@ -22,7 +22,7 @@ const driver = new webdriver.Builder()
 
 beforeAll(async () => {
   // HTTP Server should be running on 8099 port of GitHub runner
-  driver.get('http://localhost:8099/test/browser.e2e.html')
+  await driver.get('http://localhost:8099/test/browser.e2e.html')
 }, 20000)
 
 afterAll(async () => {
