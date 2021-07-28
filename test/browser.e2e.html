@@ -2,15 +2,10 @@
 <html>
   <head>
     <title>BrowserStack Tests</title>
-    <!-- <script type="module" src="../dist/js.cookie.min.mjs"></script> -->
-    <!-- <script>
-      const load = async () => {
-        const module = await import('../dist/js.cookie.min.mjs')
-        const api = module.default
-        console.log(api)
-      }
-      load()
-    </script> -->
+    <script type="module">
+      import Cookies from '../dist/js.cookie.min.mjs'
+      window.Cookies = Cookies // Make api more easily available for jest tests
+    </script>
   </head>
 
   <body></body>
