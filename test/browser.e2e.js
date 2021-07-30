@@ -30,6 +30,6 @@ afterAll(async () => {
 })
 
 test('test something', async () => {
-  const title = await driver.getTitle()
-  expect(title).toBe('BrowserStack Tests')
+  const cookie = await driver.manage().getCookie('test')
+  expect(cookie.value).toBe('foo')
 }, 5000)

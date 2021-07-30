@@ -4,7 +4,8 @@
     <title>BrowserStack Tests</title>
     <script type="module">
       import Cookies from '../dist/js.cookie.min.mjs'
-      window.Cookies = Cookies // Make api more easily available for jest tests
+
+      Cookies.set('test', 'foo')
     </script>
   </head>
 
