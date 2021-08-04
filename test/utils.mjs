@@ -1,5 +1,5 @@
 /* global QUnit */
-import Cookies from '../dist/js.cookie.mjs'
+import Cookies from '../dist/js.cookie.compat.mjs'
 
 const lifecycle = {
   afterEach: function () {

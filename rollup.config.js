@@ -36,5 +36,15 @@ export default [
       licenseBanner, // must be applied after terser, otherwise it's being stripped away...
       filesize()
     ]
+  },
+  {
+    input: 'src/compat.ts',
+    output: [
+      {
+        file: 'dist/js.cookie.compat.mjs',
+        format: 'esm'
+      }
+    ],
+    plugins: [typescript(), licenseBanner]
   }
 ]

@@ -1,5 +1,5 @@
 /* global QUnit */
-import Cookies from '../dist/js.cookie.mjs'
+import Cookies from '../dist/js.cookie.compat.mjs'
 import { lifecycle, quoted } from './utils.mjs'
 
 QUnit.module('setup', lifecycle)
