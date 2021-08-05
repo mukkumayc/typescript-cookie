@@ -3,7 +3,7 @@ import { readValue } from './converter'
 
 export default function (
   key: string | undefined,
-  converter: ReadConverter
+  converter: ReadConverter = readValue
 ): string | (object & { [property: string]: string }) {
   // To prevent the for loop in the first place assign an empty array
   // in case there are no cookies at all.

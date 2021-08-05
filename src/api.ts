@@ -19,8 +19,7 @@ export function setCookie (
   return set(
     key,
     value as string,
-    Object.assign({}, defaultAttributes, attributes),
-    defaultConverter.write
+    Object.assign({}, defaultAttributes, attributes)
   )
 }
 
@@ -32,7 +31,7 @@ export function getCookie (key?: string): string | object | undefined {
     return
   }
 
-  return get(key, defaultConverter.read)
+  return get(key)
 }
 
 export function removeCookie (key: string, attributes?: CookieAttributes): void {

@@ -1,10 +1,11 @@
 import { WriteConverter } from '../types/index'
+import { writeValue } from './converter'
 
 export default function (
   key: string,
   value: string,
   attributes: object & { [property: string]: any },
-  converter: WriteConverter
+  converter: WriteConverter = writeValue
 ): string {
   key = encodeURIComponent(key)
     .replace(/%(2[346B]|5E|60|7C)/g, decodeURIComponent)
