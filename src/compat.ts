@@ -1,7 +1,7 @@
 import { CookieAttributes, CookieConverter, Cookies } from '../types/index'
 import set from './set'
 import get from './get'
-import defaultConverter from './converter'
+import { writeValue as write, readValue as read } from './converter'
 
 function init (
   converter: CookieConverter,
@@ -61,4 +61,4 @@ function init (
   return Object.create(api, config)
 }
 
-export default init(defaultConverter, { path: '/' })
+export default init({ write, read }, { path: '/' })
