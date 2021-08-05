@@ -1,5 +1,5 @@
 import { ReadConverter } from '../types/index'
-import defaultConverter from './converter'
+import { readValue } from './converter'
 
 export default function (
   key: string | undefined,
@@ -19,7 +19,7 @@ export default function (
     }
 
     try {
-      const foundKey: string = defaultConverter.read(parts[0])
+      const foundKey: string = readValue(parts[0])
       jar[foundKey] = converter(value, foundKey)
 
       if (key === foundKey) {

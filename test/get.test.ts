@@ -1,7 +1,7 @@
 /* global test, expect, afterEach */
 
 import get from '../src/get'
-import { read } from '../src/converter'
+import { readValue as read } from '../src/converter'
 
 afterEach(() => {
   // Clean up test cookie!
