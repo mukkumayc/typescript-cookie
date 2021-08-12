@@ -38,7 +38,7 @@ export function removeCookie (key: string, attributes?: CookieAttributes): void 
   setCookie(
     key,
     '',
-    Object.assign({}, defaultAttributes, attributes, {
+    Object.assign({}, attributes, {
       expires: -1
     })
   )

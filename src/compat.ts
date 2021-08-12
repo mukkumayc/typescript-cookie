@@ -38,7 +38,7 @@ function init (
       this.set(
         key,
         '',
-        Object.assign({}, this.attributes, attributes, {
+        Object.assign({}, attributes, {
           expires: -1
         })
       )
