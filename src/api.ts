@@ -1,4 +1,9 @@
-import { CookieAttributes, CookieConverter } from '../types/index'
+import {
+  CookieAttributes,
+  CookieConverter,
+  WriteConverter,
+  ReadConverter
+} from '../types/index'
 import set from './set'
 import get from './get'
 import { writeValue as write, readValue as read } from './converter'
@@ -10,31 +15,41 @@ export const defaultAttributes: CookieAttributes = { path: '/' }
 export function setCookie (
   key: string,
   value: string | number | boolean,
-  attributes?: CookieAttributes
+  attributes: CookieAttributes = defaultAttributes,
+  converter: WriteConverter = defaultConverter.write
 ): string | undefined {
   if (typeof document === 'undefined') {
     return
   }
 
-  return set(
-    key,
-    value as string,
-    Object.assign({}, defaultAttributes, attributes)
-  )
+  return set(key, value as string, Object.assign({}, attributes), converter)
 }
 
-export function getCookie (key?: string): string | object | undefined {
-  if (
-    typeof document === 'undefined' ||
-    (arguments.length > 0 && key == null)
-  ) {
+export function getCookie (
+  key: string,
+  converter: ReadConverter = defaultConverter.read
+): string | undefined {
+  if (typeof document === 'undefined') {
     return
   }
 
-  return get(key)
+  return get(key, converter)
 }
 
-export function removeCookie (key: string, attributes?: CookieAttributes): void {
+export function getCookies (
+  converter: ReadConverter = defaultConverter.read
+): (object & { [property: string]: string }) | undefined {
+  if (typeof document === 'undefined') {
+    return
+  }
+
+  return get(undefined, converter)
+}
+
+export function removeCookie (
+  key: string,
+  attributes: CookieAttributes = defaultAttributes
+): void {
   setCookie(
     key,
     '',

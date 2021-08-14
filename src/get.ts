@@ -1,15 +1,19 @@
 import { ReadConverter } from '../types/index'
 import { readValue } from './converter'
 
-export default function (
-  key: string | undefined,
+type GetReturn<T> = [T] extends [undefined]
+  ? object & { [property: string]: string }
+  : string | undefined
+
+export default function <T extends string | undefined>(
+  key: T,
   converter: ReadConverter = readValue
-): string | (object & { [property: string]: string }) {
+): GetReturn<T> {
   // To prevent the for loop in the first place assign an empty array
   // in case there are no cookies at all.
   const cookies: string[] =
     document.cookie.length > 0 ? document.cookie.split('; ') : []
-  const jar: object & { [property: string]: string } = {}
+  const jar: any = {}
   for (let i = 0; i < cookies.length; i++) {
     const parts: string[] = cookies[i].split('=')
     let value: string = parts.slice(1).join('=')

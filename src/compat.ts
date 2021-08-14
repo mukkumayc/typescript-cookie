@@ -1,7 +1,12 @@
 import { CookieAttributes, CookieConverter, Cookies } from '../types/index'
-import set from './set'
-import get from './get'
-import { writeValue as write, readValue as read } from './converter'
+import {
+  setCookie,
+  getCookie,
+  getCookies,
+  removeCookie,
+  defaultAttributes,
+  defaultConverter
+} from './api'
 
 function init (
   converter: CookieConverter,
@@ -13,35 +18,26 @@ function init (
       value: string | number | boolean,
       attributes?: CookieAttributes
     ): string | undefined {
-      if (typeof document === 'undefined') {
-        return
-      }
-
-      return set(
+      return setCookie(
         key,
-        value as string,
+        value,
         Object.assign({}, this.attributes, attributes),
         this.converter.write
       )
     },
-    get: function (key?: string): string | object | undefined {
-      if (
-        typeof document === 'undefined' ||
-        (arguments.length > 0 && key == null)
-      ) {
+    get: function (
+      key?: string
+    ): string | undefined | (object & { [property: string]: string }) {
+      if (arguments.length === 0) {
+        return getCookies(this.converter.read)
+      }
+      if (key == null) {
         return
       }
-
-      return get(key, this.converter.read)
+      return getCookie(key, this.converter.read)
     },
     remove: function (key: string, attributes?: CookieAttributes): void {
-      this.set(
-        key,
-        '',
-        Object.assign({}, attributes, {
-          expires: -1
-        })
-      )
+      removeCookie(key, Object.assign({}, this.attributes, attributes))
     },
     withAttributes: function (attributes: CookieAttributes): Cookies {
       return init(
@@ -53,6 +49,7 @@ function init (
       return init(Object.assign({}, this.converter, converter), this.attributes)
     }
   }
+
   const config: any = {
     attributes: { value: Object.freeze(defaultAttributes) },
     converter: { value: Object.freeze(converter) }
@@ -61,4 +58,4 @@ function init (
   return Object.create(api, config)
 }
 
-export default init({ write, read }, { path: '/' })
+export default init(defaultConverter, defaultAttributes)
