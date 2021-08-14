@@ -137,36 +137,36 @@ QUnit.test('empty value', function (assert) {
 //   )
 // })
 
-// github.com/carhartl/jquery-cookie/issues/215
-QUnit.test('percent character in cookie value', function (assert) {
-  assert.expect(1)
-  document.cookie = 'bad=foo%'
-  assert.strictEqual(
-    Cookies.get('bad'),
-    'foo%',
-    'should read the percent character'
-  )
-})
+// // github.com/carhartl/jquery-cookie/issues/215
+// QUnit.test('percent character in cookie value', function (assert) {
+//   assert.expect(1)
+//   document.cookie = 'bad=foo%'
+//   assert.strictEqual(
+//     Cookies.get('bad'),
+//     'foo%',
+//     'should read the percent character'
+//   )
+// })
 
-QUnit.test(
-  'unencoded percent character in cookie value mixed with encoded values not permitted',
-  function (assert) {
-    assert.expect(1)
-    document.cookie = 'bad=foo%bar%22baz%qux'
-    assert.strictEqual(Cookies.get('bad'), undefined, 'should skip reading')
-    document.cookie = 'bad=foo; expires=Thu, 01 Jan 1970 00:00:00 GMT'
-  }
-)
+// QUnit.test(
+//   'unencoded percent character in cookie value mixed with encoded values not permitted',
+//   function (assert) {
+//     assert.expect(1)
+//     document.cookie = 'bad=foo%bar%22baz%qux'
+//     assert.strictEqual(Cookies.get('bad'), undefined, 'should skip reading')
+//     document.cookie = 'bad=foo; expires=Thu, 01 Jan 1970 00:00:00 GMT'
+//   }
+// )
 
-QUnit.test('lowercase percent character in cookie value', function (assert) {
-  assert.expect(1)
-  document.cookie = 'c=%d0%96'
-  assert.strictEqual(
-    Cookies.get('c'),
-    'Ж',
-    'should decode percent characters case insensitive'
-  )
-})
+// QUnit.test('lowercase percent character in cookie value', function (assert) {
+//   assert.expect(1)
+//   document.cookie = 'c=%d0%96'
+//   assert.strictEqual(
+//     Cookies.get('c'),
+//     'Ж',
+//     'should decode percent characters case insensitive'
+//   )
+// })
 
 QUnit.test('Call to read all when there are cookies', function (assert) {
   Cookies.set('c', 'v')
