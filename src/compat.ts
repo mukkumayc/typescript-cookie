@@ -13,11 +13,7 @@ function init (
   defaultAttributes: CookieAttributes
 ): Cookies {
   const api: any = {
-    set: function (
-      key: string,
-      value: string | number | boolean,
-      attributes?: CookieAttributes
-    ): string | undefined {
+    set: function (key: any, value: any, attributes?: any) {
       return setCookie(
         key,
         value,
@@ -25,9 +21,7 @@ function init (
         this.converter.write
       )
     },
-    get: function (
-      key?: string
-    ): string | undefined | (object & { [property: string]: string }) {
+    get: function (key?: any) {
       if (arguments.length === 0) {
         return getCookies(this.converter.read)
       }
@@ -36,16 +30,16 @@ function init (
       }
       return getCookie(key, this.converter.read)
     },
-    remove: function (key: string, attributes?: CookieAttributes): void {
+    remove: function (key: any, attributes?: any) {
       removeCookie(key, Object.assign({}, this.attributes, attributes))
     },
-    withAttributes: function (attributes: CookieAttributes): Cookies {
+    withAttributes: function (attributes: any) {
       return init(
         this.converter,
         Object.assign({}, this.attributes, attributes)
       )
     },
-    withConverter: function (converter: CookieConverter): Cookies {
+    withConverter: function (converter: any) {
       return init(Object.assign({}, this.converter, converter), this.attributes)
     }
   }
