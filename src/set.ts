@@ -1,15 +1,18 @@
-import { WriteConverter } from '../types/index'
+import { CookieAttributes, WriteConverter } from '../types/index'
 import { writeValue } from './converter'
 
 export default function (
   key: string,
   value: any,
-  attributes: object & { [property: string]: any },
+  attributes: CookieAttributes & { expires?: any },
   converter: WriteConverter = writeValue
 ): string {
   key = encodeURIComponent(key)
     .replace(/%(2[346B]|5E|60|7C)/g, decodeURIComponent)
     .replace(/[()]/g, escape)
+
+  // Copy incoming attributes as to not alter the original object..
+  attributes = Object.assign({}, attributes)
 
   if (typeof attributes.expires === 'number') {
     attributes.expires = new Date(Date.now() + attributes.expires * 864e5)

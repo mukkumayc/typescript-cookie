@@ -22,7 +22,7 @@ export function setCookie (
     return
   }
 
-  return set(key, value, Object.assign({}, attributes), converter)
+  return set(key, value, attributes, converter)
 }
 
 export function getCookie (
