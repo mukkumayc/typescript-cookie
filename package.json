@@ -24,7 +24,7 @@
     "lint": "standard && ts-standard",
     "format": "prettier -l --write --single-quote --no-semi '**/*.{html,js,json,md,mjs,ts,yml}' && standard --fix && ts-standard --fix",
     "build": "npm run clean && rollup -c && tsc --emitDeclarationOnly --declarationDir dist",
-    "clean": "rm -rf dist/*",
+    "clean": "rm -rf dist/* built/* coverage/*",
     "release": "release-it"
   },
   "repository": {
