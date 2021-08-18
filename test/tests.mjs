@@ -296,23 +296,23 @@ QUnit.test('value "[object Object]"', function (assert) {
   assert.strictEqual(Cookies.get('c'), '[object Object]', 'should write value')
 })
 
-QUnit.test('number', function (assert) {
-  assert.expect(1)
-  Cookies.set('c', 1234)
-  assert.strictEqual(Cookies.get('c'), '1234', 'should write value')
-})
+// QUnit.test('number', function (assert) {
+//   assert.expect(1)
+//   Cookies.set('c', 1234)
+//   assert.strictEqual(Cookies.get('c'), '1234', 'should write value')
+// })
 
-QUnit.test('null', function (assert) {
-  assert.expect(1)
-  Cookies.set('c', null)
-  assert.strictEqual(Cookies.get('c'), 'null', 'should write value')
-})
+// QUnit.test('null', function (assert) {
+//   assert.expect(1)
+//   Cookies.set('c', null)
+//   assert.strictEqual(Cookies.get('c'), 'null', 'should write value')
+// })
 
-QUnit.test('undefined', function (assert) {
-  assert.expect(1)
-  Cookies.set('c', undefined)
-  assert.strictEqual(Cookies.get('c'), 'undefined', 'should write value')
-})
+// QUnit.test('undefined', function (assert) {
+//   assert.expect(1)
+//   Cookies.set('c', undefined)
+//   assert.strictEqual(Cookies.get('c'), 'undefined', 'should write value')
+// })
 
 QUnit.test('expires option as days from now', function (assert) {
   assert.expect(1)

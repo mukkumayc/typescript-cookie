@@ -14,7 +14,7 @@ export const defaultAttributes: CookieAttributes = { path: '/' }
 
 export function setCookie (
   key: string,
-  value: string | number | boolean,
+  value: any,
   attributes: CookieAttributes = defaultAttributes,
   converter: WriteConverter = write
 ): string | undefined {
@@ -22,7 +22,7 @@ export function setCookie (
     return
   }
 
-  return set(key, value as string, Object.assign({}, attributes), converter)
+  return set(key, value, Object.assign({}, attributes), converter)
 }
 
 export function getCookie (

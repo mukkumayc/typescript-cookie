@@ -3,15 +3,13 @@ import { writeValue } from './converter'
 
 export default function (
   key: string,
-  value: string,
+  value: any,
   attributes: object & { [property: string]: any },
   converter: WriteConverter = writeValue
 ): string {
   key = encodeURIComponent(key)
     .replace(/%(2[346B]|5E|60|7C)/g, decodeURIComponent)
     .replace(/[()]/g, escape)
-
-  value = converter(value, key)
 
   if (typeof attributes.expires === 'number') {
     attributes.expires = new Date(Date.now() + attributes.expires * 864e5)
@@ -46,5 +44,8 @@ export default function (
     stringifiedAttributes += `=${attributeValue}`
   }
 
-  return (document.cookie = `${key}=${value}${stringifiedAttributes}`)
+  return (document.cookie = `${key}=${converter(
+    value,
+    key
+  )}${stringifiedAttributes}`)
 }
