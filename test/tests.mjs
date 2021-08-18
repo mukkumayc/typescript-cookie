@@ -283,6 +283,7 @@ QUnit.module('write', lifecycle)
 //   assert.strictEqual(Cookies.get('c'), 'v', 'should write value')
 // })
 
+// Not applicable w/ TypeScript..
 QUnit.test('String object', function (assert) {
   /* eslint-disable no-new-wrappers */
   assert.expect(1)
@@ -290,11 +291,11 @@ QUnit.test('String object', function (assert) {
   assert.strictEqual(Cookies.get('c'), 'v', 'should write value')
 })
 
-QUnit.test('value "[object Object]"', function (assert) {
-  assert.expect(1)
-  Cookies.set('c', '[object Object]')
-  assert.strictEqual(Cookies.get('c'), '[object Object]', 'should write value')
-})
+// QUnit.test('value "[object Object]"', function (assert) {
+//   assert.expect(1)
+//   Cookies.set('c', '[object Object]')
+//   assert.strictEqual(Cookies.get('c'), '[object Object]', 'should write value')
+// })
 
 // QUnit.test('number', function (assert) {
 //   assert.expect(1)
@@ -372,12 +373,12 @@ QUnit.test('expires option as Date instance', function (assert) {
   )
 })
 
-QUnit.test('return value', function (assert) {
-  assert.expect(1)
-  const expected = 'c=v'
-  const actual = Cookies.set('c', 'v').substring(0, expected.length)
-  assert.strictEqual(actual, expected, 'should return written cookie string')
-})
+// QUnit.test('return value', function (assert) {
+//   assert.expect(1)
+//   const expected = 'c=v'
+//   const actual = Cookies.set('c', 'v').substring(0, expected.length)
+//   assert.strictEqual(actual, expected, 'should return written cookie string')
+// })
 
 QUnit.test('predefined path attribute', function (assert) {
   assert.expect(1)

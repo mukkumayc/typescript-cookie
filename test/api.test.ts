@@ -7,6 +7,15 @@ describe('setCookie', () => {
     setCookie('c', 'v')
     expect(document.cookie).toBe('c=v')
   })
+
+  test('when value matches "[object Object]"', () => {
+    setCookie('c', '[object Object]')
+    expect(document.cookie).toBe('c=[object%20Object]')
+  })
+
+  test('return value is written cookie string', () => {
+    expect(setCookie('c', 'v')).toBe('c=v; path=/')
+  })
 })
 
 describe('getCookie', () => {
