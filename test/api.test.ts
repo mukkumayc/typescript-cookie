@@ -1,6 +1,12 @@
 /* global afterEach, describe, expect, test */
 
-import { getCookie, getCookies, removeCookie, setCookie } from '../src/api'
+import {
+  defaultAttributes,
+  getCookie,
+  getCookies,
+  removeCookie,
+  setCookie
+} from '../src/api'
 
 describe('setCookie', () => {
   afterEach(() => {
@@ -20,6 +26,11 @@ describe('setCookie', () => {
 
   test('return value is written cookie string', () => {
     expect(setCookie('c', 'v')).toBe('c=v; path=/')
+  })
+
+  test('with custom write converter', () => {
+    setCookie('c', 'v', defaultAttributes, (value) => value.toUpperCase())
+    expect(document.cookie).toMatch('c=V')
   })
 
   describe('with attributes', () => {
@@ -234,6 +245,11 @@ describe('getCookies', () => {
     document.cookie = 'c=v'
     expect(() => getCookies()).not.toThrow()
     document.cookie = 'invalid=foo; expires=Thu, 01 Jan 1970 00:00:00 GMT'
+  })
+
+  test('with custom read converter', () => {
+    document.cookie = 'c=v'
+    expect(getCookies((value) => value.toUpperCase())).toStrictEqual({ c: 'V' })
   })
 })
 
