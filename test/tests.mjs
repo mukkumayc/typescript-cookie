@@ -388,26 +388,26 @@ QUnit.test('String object', function (assert) {
 //   )
 // })
 
-QUnit.test('API for changing defaults', function (assert) {
-  assert.expect(3)
+// QUnit.test('API for changing defaults', function (assert) {
+//   assert.expect(3)
 
-  let api
+//   let api
 
-  api = Cookies.withAttributes({ path: '/foo' })
-  assert.ok(
-    api.set('c', 'v').match(/path=\/foo/),
-    'should use attributes from defaults'
-  )
-  assert.ok(
-    api.set('c', 'v', { path: '/baz' }).match(/path=\/baz/),
-    'attributes argument has precedence'
-  )
+//   api = Cookies.withAttributes({ path: '/foo' })
+//   assert.ok(
+//     api.set('c', 'v').match(/path=\/foo/),
+//     'should use attributes from defaults'
+//   )
+//   assert.ok(
+//     api.set('c', 'v', { path: '/baz' }).match(/path=\/baz/),
+//     'attributes argument has precedence'
+//   )
 
-  api = Cookies.withAttributes({ path: undefined })
-  assert.notOk(api.set('c', 'v').match(/path=/), 'should not set any path')
+//   api = Cookies.withAttributes({ path: undefined })
+//   assert.notOk(api.set('c', 'v').match(/path=/), 'should not set any path')
 
-  Cookies.remove('c')
-})
+//   Cookies.remove('c')
+// })
 
 // QUnit.test('true secure value', function (assert) {
 //   assert.expect(1)

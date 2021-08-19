@@ -2,52 +2,85 @@
 
 import Cookies from '../src/compat'
 
-test('setting up instance with new default cookie attributes', () => {
-  const api = Cookies.withAttributes({ path: '/bar' })
-  expect(api.set('c', 'v')).toMatch(/c=v; path=\/bar/)
-})
-
-test('setting up cookie attributes each time from original', () => {
-  Cookies.withAttributes({ path: '/bar' })
-  const second = Cookies.withAttributes({ sameSite: 'Lax' })
-  expect(second.set('c', 'v')).not.toMatch(/c=v; path=\/bar/)
-})
-
-test('setting up converters followed by default cookie attributes', () => {
-  const api = Cookies.withConverter({
-    write: (value) => value.toUpperCase()
-  }).withAttributes({ path: '/foo' })
-  expect(api.set('c', 'v')).toMatch(/c=V; path=\/foo/)
-})
-
-test('setting up default cookie attributes followed by converter', () => {
-  const api = Cookies.withAttributes({ path: '/foo' }).withConverter({
-    write: (value) => value.toUpperCase()
+describe('set', () => {
+  afterEach(() => {
+    // Clean up test cookie!
+    document.cookie = 'c=v; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT'
   })
-  expect(api.set('c', 'v')).toMatch(/c=V; path=\/foo/)
+
+  test('merges default attributes with given attributes', () => {
+    expect(Cookies.set('c', 'v', { sameSite: 'Lax' })).toBe(
+      'c=v; path=/; sameSite=Lax'
+    )
+  })
 })
 
-test("won't allow to reassign property within attributes property", () => {
-  try {
-    // throws TypeError in strict mode (ES module)
-    Cookies.attributes.path = '/foo'
-  } catch (error) {}
-  expect(Cookies.attributes.path).toEqual('/')
+describe('get', () => {
+  test("when `undefined` as first argument won't attempt to retrieve all cookies", () => {
+    expect(Cookies.get(undefined)).toBeUndefined()
+  })
+
+  test("when `null` as first argument won't attempt to retrieve all cookies", () => {
+    expect(Cookies.get(null)).toBeUndefined()
+  })
 })
 
-test("won't allow to reassign property within converter property", () => {
-  const newReadConverter = (value: string): string => ''
-  try {
-    // throws TypeError in strict mode (ES module)
-    Cookies.converter.read = newReadConverter
-  } catch (error) {}
-  expect(Cookies.converter.read).not.toBe(newReadConverter)
-})
+describe('configuration', () => {
+  afterEach(() => {
+    // Clean up test cookie!
+    document.cookie = 'c=v; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT'
+  })
 
-test("get with `undefined` as first argument won't attempt to retrieve all cookies", () => {
-  expect(Cookies.get(undefined)).toBeUndefined()
-})
+  describe('withAttributes', () => {
+    test('sets up instance with new default cookie attributes', () => {
+      const api = Cookies.withAttributes({ path: '/bar' })
+      expect(api.attributes).toStrictEqual({ path: '/bar' })
+      expect(api.set('c', 'v')).toBe('c=v; path=/bar')
+    })
 
-test("get with `null` as first argument won't attempt to retrieve all cookies", () => {
-  expect(Cookies.get(null)).toBeUndefined()
+    test('sets up cookie attributes each time from original', () => {
+      Cookies.withAttributes({ path: '/bar' })
+      const api = Cookies.withAttributes({ sameSite: 'Lax' })
+      expect(api.attributes).toStrictEqual({ path: '/', sameSite: 'Lax' })
+      expect(api.set('c', 'v')).not.toMatch('path=/bar')
+    })
+  })
+
+  describe('withConverter', () => {})
+
+  test('with attributes argument having precedence', () => {
+    const api = Cookies.withAttributes({ path: '/foo' })
+    expect(api.set('c', 'v', { path: '/' })).toBe('c=v; path=/')
+  })
+
+  test('setting up converters followed by default cookie attributes', () => {
+    const api = Cookies.withConverter({
+      write: (value) => value.toUpperCase()
+    }).withAttributes({ path: '/foo' })
+    expect(api.set('c', 'v')).toMatch(/c=V; path=\/foo/)
+  })
+
+  test('setting up default cookie attributes followed by converter', () => {
+    const api = Cookies.withAttributes({ path: '/foo' }).withConverter({
+      write: (value) => value.toUpperCase()
+    })
+    expect(api.set('c', 'v')).toMatch(/c=V; path=\/foo/)
+  })
+
+  test("won't allow to reassign property within attributes property", () => {
+    try {
+      // throws TypeError in strict mode (ES module)
+      Cookies.attributes.path = '/foo'
+    } catch (error) {}
+    expect(Cookies.attributes.path).toEqual('/')
+  })
+
+  test("won't allow to reassign property within converter property", () => {
+    const newReadConverter = (value: string): string => ''
+    try {
+      // throws TypeError in strict mode (ES module)
+      Cookies.converter.read = newReadConverter
+    } catch (error) {}
+    expect(Cookies.converter.read).not.toBe(newReadConverter)
+  })
 })
