@@ -2,7 +2,7 @@
 
 import Cookies from '../src/compat'
 
-test('setting up instance with default cookie attributes', () => {
+test('setting up instance with new default cookie attributes', () => {
   const api = Cookies.withAttributes({ path: '/bar' })
   expect(api.set('c', 'v')).toMatch(/c=v; path=\/bar/)
 })
