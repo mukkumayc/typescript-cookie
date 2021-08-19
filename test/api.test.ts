@@ -1,6 +1,6 @@
 /* global afterEach, describe, expect, test */
 
-import { getCookie, getCookies, setCookie } from '../src/api'
+import { getCookie, getCookies, removeCookie, setCookie } from '../src/api'
 
 describe('setCookie', () => {
   afterEach(() => {
@@ -227,5 +227,35 @@ describe('getCookies', () => {
     document.cookie = 'c=v'
     expect(() => getCookies()).not.toThrow()
     document.cookie = 'invalid=foo; expires=Thu, 01 Jan 1970 00:00:00 GMT'
+  })
+})
+
+describe('removeCookie', () => {
+  test('erases given cookie', () => {
+    document.cookie = 'c=v; path=/'
+    removeCookie('c')
+    expect(document.cookie).toBe('')
+  })
+
+  describe('with attributes', () => {
+    test("won't alter passed attributes object", () => {
+      const attributes = { path: '/test' }
+      removeCookie('c', attributes)
+      expect(attributes).toStrictEqual({ path: '/test' })
+    })
+
+    test('using predefined default path', () => {
+      document.cookie = 'c=v; path=/'
+      removeCookie('c')
+      expect(document.cookie).toBe('')
+    })
+
+    test('with particular path', () => {
+      document.cookie = 'c=v; path=/'
+      removeCookie('c', { path: '/test' })
+      expect(document.cookie).toBe('c=v')
+      removeCookie('c', { path: '/' })
+      expect(document.cookie).toBe('')
+    })
   })
 })

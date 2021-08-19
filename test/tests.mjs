@@ -500,28 +500,28 @@ QUnit.test('API for changing defaults', function (assert) {
 
 QUnit.module('remove', lifecycle)
 
-QUnit.test('deletion', function (assert) {
-  assert.expect(1)
-  Cookies.set('c', 'v')
-  Cookies.remove('c')
-  assert.strictEqual(document.cookie, '', 'should delete the cookie')
-})
+// QUnit.test('deletion', function (assert) {
+//   assert.expect(1)
+//   Cookies.set('c', 'v')
+//   Cookies.remove('c')
+//   assert.strictEqual(document.cookie, '', 'should delete the cookie')
+// })
 
-QUnit.test('with attributes', function (assert) {
-  assert.expect(1)
-  const attributes = { path: '/' }
-  Cookies.set('c', 'v', attributes)
-  Cookies.remove('c', attributes)
-  assert.strictEqual(document.cookie, '', 'should delete the cookie')
-})
+// QUnit.test('with attributes', function (assert) {
+//   assert.expect(1)
+//   const attributes = { path: '/' }
+//   Cookies.set('c', 'v', attributes)
+//   Cookies.remove('c', attributes)
+//   assert.strictEqual(document.cookie, '', 'should delete the cookie')
+// })
 
-QUnit.test('passing attributes reference', function (assert) {
-  assert.expect(1)
-  const attributes = { path: '/' }
-  Cookies.set('c', 'v', attributes)
-  Cookies.remove('c', attributes)
-  assert.deepEqual(attributes, { path: '/' }, "won't alter attributes object")
-})
+// QUnit.test('passing attributes reference', function (assert) {
+//   assert.expect(1)
+//   const attributes = { path: '/' }
+//   Cookies.set('c', 'v', attributes)
+//   Cookies.remove('c', attributes)
+//   assert.deepEqual(attributes, { path: '/' }, "won't alter attributes object")
+// })
 
 QUnit.module('Custom converters', lifecycle)
 
