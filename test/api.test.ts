@@ -5,7 +5,7 @@ import { getCookie, getCookies, setCookie } from '../src/api'
 describe('setCookie', () => {
   afterEach(() => {
     // Clean up test cookie!
-    document.cookie = 'c=v; expires=Thu, 01 Jan 1970 00:00:00 GMT'
+    document.cookie = 'c=v; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT'
   })
 
   test('when simple value', () => {
