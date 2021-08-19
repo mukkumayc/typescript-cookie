@@ -25,8 +25,9 @@ describe('setCookie', () => {
   describe('with attributes', () => {
     test("won't alter passed attributes object", () => {
       const attributes = { path: '/test' }
-      setCookie('c', attributes)
+      setCookie('c', 'v', attributes)
       expect(attributes).toStrictEqual({ path: '/test' })
+      document.cookie = 'c=v; path=/test; expires=Thu, 01 Jan 1970 00:00:00 GMT'
     })
 
     test('using predefined default path', () => {
