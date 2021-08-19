@@ -23,6 +23,12 @@ describe('setCookie', () => {
   })
 
   describe('with attributes', () => {
+    test("won't alter passed attributes object", () => {
+      const attributes = { path: '/test' }
+      setCookie('c', attributes)
+      expect(attributes).toStrictEqual({ path: '/test' })
+    })
+
     test('using predefined default path', () => {
       expect(setCookie('c', 'v')).toMatch(/; path=\/$/)
     })
