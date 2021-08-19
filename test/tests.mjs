@@ -1,6 +1,6 @@
 /* global QUnit */
 import Cookies from '../dist/js.cookie.compat.mjs'
-import { lifecycle, quoted } from './utils.mjs'
+import { lifecycle } from './utils.mjs'
 
 QUnit.module('setup', lifecycle)
 
@@ -315,63 +315,63 @@ QUnit.test('String object', function (assert) {
 //   assert.strictEqual(Cookies.get('c'), 'undefined', 'should write value')
 // })
 
-QUnit.test('expires option as days from now', function (assert) {
-  assert.expect(1)
-  const days = 200
-  const expires = new Date(new Date().valueOf() + days * 24 * 60 * 60 * 1000)
-  const expected = 'expires=' + expires.toUTCString()
-  const actual = Cookies.set('c', 'v', { expires: days })
-  assert.ok(
-    actual.indexOf(expected) !== -1,
-    quoted(actual) + ' includes ' + quoted(expected)
-  )
-})
+// QUnit.test('expires option as days from now', function (assert) {
+//   assert.expect(1)
+//   const days = 200
+//   const expires = new Date(new Date().valueOf() + days * 24 * 60 * 60 * 1000)
+//   const expected = 'expires=' + expires.toUTCString()
+//   const actual = Cookies.set('c', 'v', { expires: days })
+//   assert.ok(
+//     actual.indexOf(expected) !== -1,
+//     quoted(actual) + ' includes ' + quoted(expected)
+//   )
+// })
 
 // github.com/carhartl/jquery-cookie/issues/246
-QUnit.test('expires option as fraction of a day', function (assert) {
-  assert.expect(1)
+// QUnit.test('expires option as fraction of a day', function (assert) {
+//   assert.expect(1)
 
-  const findValueForAttributeName = function (createdCookie, attributeName) {
-    const pairs = createdCookie.split('; ')
-    let foundAttributeValue
-    pairs.forEach(function (pair) {
-      if (pair.split('=')[0] === attributeName) {
-        foundAttributeValue = pair.split('=')[1]
-      }
-    })
-    return foundAttributeValue
-  }
-  const now = new Date()
-  const stringifiedDate = findValueForAttributeName(
-    Cookies.set('c', 'v', { expires: 0.5 }),
-    'expires'
-  )
-  const expires = new Date(stringifiedDate)
+//   const findValueForAttributeName = function (createdCookie, attributeName) {
+//     const pairs = createdCookie.split('; ')
+//     let foundAttributeValue
+//     pairs.forEach(function (pair) {
+//       if (pair.split('=')[0] === attributeName) {
+//         foundAttributeValue = pair.split('=')[1]
+//       }
+//     })
+//     return foundAttributeValue
+//   }
+//   const now = new Date()
+//   const stringifiedDate = findValueForAttributeName(
+//     Cookies.set('c', 'v', { expires: 0.5 }),
+//     'expires'
+//   )
+//   const expires = new Date(stringifiedDate)
 
-  // When we were using Date.setDate() fractions have been ignored
-  // and expires resulted in the current date. Allow 1000 milliseconds
-  // difference for execution time because new Date() can be different,
-  // even when it's run synchronously.
-  // See https://github.com/js-cookie/js-cookie/commit/ecb597b65e4c477baa2b30a2a5a67fdaee9870ea#commitcomment-20146048.
-  const assertion = expires.getTime() > now.getTime() + 1000
-  const message =
-    quoted(expires.getTime()) +
-    ' should be greater than ' +
-    quoted(now.getTime())
-  assert.ok(assertion, message)
-})
+//   // When we were using Date.setDate() fractions have been ignored
+//   // and expires resulted in the current date. Allow 1000 milliseconds
+//   // difference for execution time because new Date() can be different,
+//   // even when it's run synchronously.
+//   // See https://github.com/js-cookie/js-cookie/commit/ecb597b65e4c477baa2b30a2a5a67fdaee9870ea#commitcomment-20146048.
+//   const assertion = expires.getTime() > now.getTime() + 1000
+//   const message =
+//     quoted(expires.getTime()) +
+//     ' should be greater than ' +
+//     quoted(now.getTime())
+//   assert.ok(assertion, message)
+// })
 
-QUnit.test('expires option as Date instance', function (assert) {
-  assert.expect(1)
-  const sevenDaysFromNow = new Date()
-  sevenDaysFromNow.setDate(sevenDaysFromNow.getDate() + 7)
-  const expected = 'expires=' + sevenDaysFromNow.toUTCString()
-  const actual = Cookies.set('c', 'v', { expires: sevenDaysFromNow })
-  assert.ok(
-    actual.indexOf(expected) !== -1,
-    quoted(actual) + ' includes ' + quoted(expected)
-  )
-})
+// QUnit.test('expires option as Date instance', function (assert) {
+//   assert.expect(1)
+//   const sevenDaysFromNow = new Date()
+//   sevenDaysFromNow.setDate(sevenDaysFromNow.getDate() + 7)
+//   const expected = 'expires=' + sevenDaysFromNow.toUTCString()
+//   const actual = Cookies.set('c', 'v', { expires: sevenDaysFromNow })
+//   assert.ok(
+//     actual.indexOf(expected) !== -1,
+//     quoted(actual) + ' includes ' + quoted(expected)
+//   )
+// })
 
 // QUnit.test('return value', function (assert) {
 //   assert.expect(1)
@@ -380,13 +380,13 @@ QUnit.test('expires option as Date instance', function (assert) {
 //   assert.strictEqual(actual, expected, 'should return written cookie string')
 // })
 
-QUnit.test('predefined path attribute', function (assert) {
-  assert.expect(1)
-  assert.ok(
-    Cookies.set('c', 'v').match(/path=\/$/),
-    'should use root path when not configured otherwise'
-  )
-})
+// QUnit.test('predefined path attribute', function (assert) {
+//   assert.expect(1)
+//   assert.ok(
+//     Cookies.set('c', 'v').match(/path=\/$/),
+//     'should use root path when not configured otherwise'
+//   )
+// })
 
 QUnit.test('API for changing defaults', function (assert) {
   assert.expect(3)
@@ -409,94 +409,94 @@ QUnit.test('API for changing defaults', function (assert) {
   Cookies.remove('c')
 })
 
-QUnit.test('true secure value', function (assert) {
-  assert.expect(1)
-  const expected = 'c=v; path=/; secure'
-  const actual = Cookies.set('c', 'v', { secure: true })
-  assert.strictEqual(actual, expected, 'should add secure attribute')
-})
+// QUnit.test('true secure value', function (assert) {
+//   assert.expect(1)
+//   const expected = 'c=v; path=/; secure'
+//   const actual = Cookies.set('c', 'v', { secure: true })
+//   assert.strictEqual(actual, expected, 'should add secure attribute')
+// })
 
 // github.com/js-cookie/js-cookie/pull/54
-QUnit.test('false secure value', function (assert) {
-  assert.expect(1)
-  const expected = 'c=v; path=/'
-  const actual = Cookies.set('c', 'v', { secure: false })
-  assert.strictEqual(
-    actual,
-    expected,
-    'false should not modify path in cookie string'
-  )
-})
+// QUnit.test('false secure value', function (assert) {
+//   assert.expect(1)
+//   const expected = 'c=v; path=/'
+//   const actual = Cookies.set('c', 'v', { secure: false })
+//   assert.strictEqual(
+//     actual,
+//     expected,
+//     'false should not modify path in cookie string'
+//   )
+// })
 
 // github.com/js-cookie/js-cookie/issues/276
-QUnit.test('unofficial attribute', function (assert) {
-  assert.expect(1)
-  const expected = 'c=v; path=/; unofficial=anything'
-  const actual = Cookies.set('c', 'v', {
-    unofficial: 'anything'
-  })
-  assert.strictEqual(
-    expected,
-    actual,
-    'should write the cookie string with unofficial attribute'
-  )
-})
+// QUnit.test('unofficial attribute', function (assert) {
+//   assert.expect(1)
+//   const expected = 'c=v; path=/; unofficial=anything'
+//   const actual = Cookies.set('c', 'v', {
+//     unofficial: 'anything'
+//   })
+//   assert.strictEqual(
+//     expected,
+//     actual,
+//     'should write the cookie string with unofficial attribute'
+//   )
+// })
 
-QUnit.test('undefined attribute value', function (assert) {
-  assert.expect(5)
-  assert.strictEqual(
-    Cookies.set('c', 'v', {
-      expires: undefined
-    }),
-    'c=v; path=/',
-    'should not write undefined expires attribute'
-  )
-  assert.strictEqual(
-    Cookies.set('c', 'v', {
-      path: undefined
-    }),
-    'c=v',
-    'should not write undefined path attribute'
-  )
-  assert.strictEqual(
-    Cookies.set('c', 'v', {
-      domain: undefined
-    }),
-    'c=v; path=/',
-    'should not write undefined domain attribute'
-  )
-  assert.strictEqual(
-    Cookies.set('c', 'v', {
-      secure: undefined
-    }),
-    'c=v; path=/',
-    'should not write undefined secure attribute'
-  )
-  assert.strictEqual(
-    Cookies.set('c', 'v', {
-      unofficial: undefined
-    }),
-    'c=v; path=/',
-    'should not write undefined unofficial attribute'
-  )
-})
+// QUnit.test('undefined attribute value', function (assert) {
+//   assert.expect(5)
+//   assert.strictEqual(
+//     Cookies.set('c', 'v', {
+//       expires: undefined
+//     }),
+//     'c=v; path=/',
+//     'should not write undefined expires attribute'
+//   )
+//   assert.strictEqual(
+//     Cookies.set('c', 'v', {
+//       path: undefined
+//     }),
+//     'c=v',
+//     'should not write undefined path attribute'
+//   )
+//   assert.strictEqual(
+//     Cookies.set('c', 'v', {
+//       domain: undefined
+//     }),
+//     'c=v; path=/',
+//     'should not write undefined domain attribute'
+//   )
+//   assert.strictEqual(
+//     Cookies.set('c', 'v', {
+//       secure: undefined
+//     }),
+//     'c=v; path=/',
+//     'should not write undefined secure attribute'
+//   )
+//   assert.strictEqual(
+//     Cookies.set('c', 'v', {
+//       unofficial: undefined
+//     }),
+//     'c=v; path=/',
+//     'should not write undefined unofficial attribute'
+//   )
+// })
 
 // github.com/js-cookie/js-cookie/issues/396
-QUnit.test(
-  'sanitization of attributes to prevent XSS from untrusted input',
-  function (assert) {
-    assert.expect(1)
-    assert.strictEqual(
-      Cookies.set('c', 'v', {
-        path: '/;domain=sub.domain.com',
-        domain: 'site.com;remove_this',
-        customAttribute: 'value;;remove_this'
-      }),
-      'c=v; path=/; domain=site.com; customAttribute=value',
-      'should not allow semicolon in a cookie attribute'
-    )
-  }
-)
+// QUnit.test(
+//   'sanitization of attributes to prevent XSS from untrusted input',
+//   function (assert) {
+//     assert.expect(1)
+//     assert.strictEqual(
+//       Cookies.set('c', 'v', {
+//         path: '/;domain=sub.domain.com',
+//         domain: 'site.com;remove_this',
+//         customAttribute: 'value;;remove_this'
+//       }),
+//       'c=v; path=/; domain=site.com; customAttribute=value',
+//       'should not allow semicolon in a cookie attribute'
+//     )
+//   }
+// )
 
 QUnit.module('remove', lifecycle)
 
