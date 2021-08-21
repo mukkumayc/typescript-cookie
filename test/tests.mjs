@@ -556,60 +556,60 @@ QUnit.test(
   }
 )
 
-QUnit.test(
-  'should be able to conditionally decode a single malformed cookie',
-  function (assert) {
-    assert.expect(2)
-    const cookies = Cookies.withConverter({
-      read: function (value, name) {
-        if (name === 'escaped') {
-          return unescape(value)
-        }
-      }
-    })
+// QUnit.test(
+//   'should be able to conditionally decode a single malformed cookie',
+//   function (assert) {
+//     assert.expect(2)
+//     const cookies = Cookies.withConverter({
+//       read: function (value, name) {
+//         if (name === 'escaped') {
+//           return unescape(value)
+//         }
+//       }
+//     })
 
-    document.cookie = 'escaped=%u5317'
-    assert.strictEqual(
-      cookies.get('escaped'),
-      '北',
-      'should use custom read converter when retrieving single cookies'
-    )
+//     document.cookie = 'escaped=%u5317'
+//     assert.strictEqual(
+//       cookies.get('escaped'),
+//       '北',
+//       'should use custom read converter when retrieving single cookies'
+//     )
 
-    assert.deepEqual(
-      cookies.get(),
-      {
-        escaped: '北'
-      },
-      'should use custom read converter when retrieving all cookies'
-    )
-  }
-)
+//     assert.deepEqual(
+//       cookies.get(),
+//       {
+//         escaped: '北'
+//       },
+//       'should use custom read converter when retrieving all cookies'
+//     )
+//   }
+// )
 
 // github.com/js-cookie/js-cookie/issues/70
-QUnit.test('should be able to set up a write decoder', function (assert) {
-  assert.expect(1)
-  Cookies.withConverter({
-    write: function (value) {
-      return value.replace('+', '%2B')
-    }
-  }).set('c', '+')
-  assert.strictEqual(
-    document.cookie,
-    'c=%2B',
-    'should call the write converter'
-  )
-})
+// QUnit.test('should be able to set up a write decoder', function (assert) {
+//   assert.expect(1)
+//   Cookies.withConverter({
+//     write: function (value) {
+//       return value.replace('+', '%2B')
+//     }
+//   }).set('c', '+')
+//   assert.strictEqual(
+//     document.cookie,
+//     'c=%2B',
+//     'should call the write converter'
+//   )
+// })
 
-QUnit.test('should be able to set up a read decoder', function (assert) {
-  assert.expect(1)
-  document.cookie = 'c=%2B'
-  const cookies = Cookies.withConverter({
-    read: function (value) {
-      return value.replace('%2B', '+')
-    }
-  })
-  assert.strictEqual(cookies.get('c'), '+', 'should call the read converter')
-})
+// QUnit.test('should be able to set up a read decoder', function (assert) {
+//   assert.expect(1)
+//   document.cookie = 'c=%2B'
+//   const cookies = Cookies.withConverter({
+//     read: function (value) {
+//       return value.replace('%2B', '+')
+//     }
+//   })
+//   assert.strictEqual(cookies.get('c'), '+', 'should call the read converter')
+// })
 
 QUnit.test('should be able to extend read decoder', function (assert) {
   assert.expect(1)
@@ -638,19 +638,19 @@ QUnit.test('should be able to extend write decoder', function (assert) {
   )
 })
 
-QUnit.test(
-  'should be able to convert incoming, non-String values',
-  function (assert) {
-    assert.expect(1)
-    Cookies.withConverter({
-      write: function (value) {
-        return JSON.stringify(value)
-      }
-    }).set('c', { foo: 'bar' })
-    assert.strictEqual(
-      document.cookie,
-      'c={"foo":"bar"}',
-      'should convert object as JSON string'
-    )
-  }
-)
+// QUnit.test(
+//   'should be able to convert incoming, non-String values',
+//   function (assert) {
+//     assert.expect(1)
+//     Cookies.withConverter({
+//       write: function (value) {
+//         return JSON.stringify(value)
+//       }
+//     }).set('c', { foo: 'bar' })
+//     assert.strictEqual(
+//       document.cookie,
+//       'c={"foo":"bar"}',
+//       'should convert object as JSON string'
+//     )
+//   }
+// )

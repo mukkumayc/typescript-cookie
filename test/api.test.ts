@@ -28,11 +28,6 @@ describe('setCookie', () => {
     expect(setCookie('c', 'v')).toBe('c=v; path=/')
   })
 
-  test('with custom write converter', () => {
-    setCookie('c', 'v', defaultAttributes, (value) => value.toUpperCase())
-    expect(document.cookie).toMatch('c=V')
-  })
-
   describe('with attributes', () => {
     test("won't alter passed attributes object", () => {
       const attributes = { path: '/test' }
@@ -147,6 +142,30 @@ describe('setCookie', () => {
       ).toBe('c=v; path=/; domain=site.com; customAttribute=value')
     })
   })
+
+  describe('with converter', () => {
+    test('customizing write behavior', () => {
+      setCookie('c', 'v', defaultAttributes, (value) => value.toUpperCase())
+      expect(document.cookie).toBe('c=V')
+    })
+
+    test('conditionally encoding a particular cookie only', () => {
+      setCookie('c', '北', defaultAttributes, (value, name) => {
+        if (name === 'c') {
+          return escape(value)
+        }
+        return value
+      })
+      expect(document.cookie).toBe('c=%u5317')
+    })
+
+    test('converting non-String values', () => {
+      setCookie('c', { foo: 'bar' }, defaultAttributes, (value) =>
+        JSON.stringify(value)
+      )
+      expect(document.cookie).toBe('c={"foo":"bar"}')
+    })
+  })
 })
 
 describe('getCookie', () => {
@@ -207,9 +226,29 @@ describe('getCookie', () => {
     document.cookie = 'invalid=foo; expires=Thu, 01 Jan 1970 00:00:00 GMT'
   })
 
-  test('with custom read converter', () => {
-    document.cookie = 'c=v'
-    expect(getCookie('c', (value) => value.toUpperCase())).toBe('V')
+  describe('with converter', () => {
+    test('customizing read behavior', () => {
+      document.cookie = 'c=v'
+      expect(getCookie('c', (value) => value.toUpperCase())).toBe('V')
+    })
+
+    test('conditionally decoding a particular cookie only', () => {
+      document.cookie = 'c=%u5317'
+      expect(
+        getCookie('c', (value, name) => {
+          if (name === 'c') {
+            return unescape(value)
+          }
+        })
+      ).toBe('北')
+    })
+
+    test('converting non-String values', () => {
+      document.cookie = 'c={"foo":"bar"}'
+      expect(getCookie('c', (value) => JSON.parse(value))).toStrictEqual({
+        foo: 'bar'
+      })
+    })
   })
 })
 
@@ -247,9 +286,31 @@ describe('getCookies', () => {
     document.cookie = 'invalid=foo; expires=Thu, 01 Jan 1970 00:00:00 GMT'
   })
 
-  test('with custom read converter', () => {
-    document.cookie = 'c=v'
-    expect(getCookies((value) => value.toUpperCase())).toStrictEqual({ c: 'V' })
+  describe('with converter', () => {
+    test('customizing read behavior', () => {
+      document.cookie = 'c=v'
+      expect(getCookies((value) => value.toUpperCase())).toStrictEqual({
+        c: 'V'
+      })
+    })
+
+    test('conditionally decoding a particular cookie only', () => {
+      document.cookie = 'c=%u5317'
+      expect(
+        getCookies((value, name) => {
+          if (name === 'c') {
+            return unescape(value)
+          }
+        })
+      ).toStrictEqual({ c: '北' })
+    })
+
+    test('converting non-String values', () => {
+      document.cookie = 'c={"foo":"bar"}'
+      expect(getCookies((value) => JSON.parse(value))).toStrictEqual({
+        c: { foo: 'bar' }
+      })
+    })
   })
 })
 

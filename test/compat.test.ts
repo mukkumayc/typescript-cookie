@@ -46,7 +46,24 @@ describe('configuration', () => {
     })
   })
 
-  describe('withConverter', () => {})
+  describe('withConverter', () => {
+    // github.com/js-cookie/js-cookie/issues/70
+    test('setting up custom write decoder', () => {
+      Cookies.withConverter({
+        write: (value) => value.replace('+', '%2B')
+      }).set('c', '+')
+      expect(document.cookie).toMatch('c=%2B')
+    })
+
+    test('setting up custom read decoder', () => {
+      document.cookie = 'c=%2B'
+      expect(
+        Cookies.withConverter({
+          read: (value) => value.replace('%2B', '+')
+        }).get('c')
+      ).toBe('+')
+    })
+  })
 
   test('with attributes argument having precedence', () => {
     const api = Cookies.withAttributes({ path: '/foo' })
