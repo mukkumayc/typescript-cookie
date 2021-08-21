@@ -1,11 +1,11 @@
 import { CookieAttributes, CookieConverter, Cookies } from '../types/index'
 import {
-  setCookie,
+  defaultAttributes,
+  defaultConverter,
   getCookie,
   getCookies,
   removeCookie,
-  defaultAttributes,
-  defaultConverter
+  setCookie
 } from './api'
 
 function init (
