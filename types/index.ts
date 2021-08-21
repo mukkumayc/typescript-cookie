@@ -7,9 +7,9 @@ export type CookieAttributes = object & {
   [property: string]: any
 }
 
-export type ReadConverter = (value: string, name: string) => any
+export type ReadConverter = (value: string, name?: string) => any
 
-export type WriteConverter = (value: any, name: string) => string
+export type WriteConverter = (value: any, name?: string) => string
 
 export type CookieConverter = object & {
   read?: ReadConverter

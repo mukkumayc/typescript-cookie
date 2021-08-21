@@ -1,4 +1,6 @@
-export const writeValue = (
+import { ReadConverter, WriteConverter } from '../types/index'
+
+export const writeValue: WriteConverter = (
   value: string | number | boolean | undefined | null
 ): string => {
   return encodeURIComponent(value as string).replace(
@@ -7,6 +9,6 @@ export const writeValue = (
   )
 }
 
-export const readValue = (value: string): string => {
+export const readValue: ReadConverter = (value: string): string => {
   return value.replace(/(%[\dA-F]{2})+/gi, decodeURIComponent)
 }
