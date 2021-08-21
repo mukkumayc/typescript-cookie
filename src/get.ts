@@ -23,7 +23,7 @@ export default function <T extends string | undefined>(
     }
 
     try {
-      const foundKey: string = readValue(parts[0])
+      const foundKey: string = decodeURIComponent(parts[0])
       jar[foundKey] = converter(value, foundKey)
 
       if (key === foundKey) {
