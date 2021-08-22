@@ -2,7 +2,7 @@ export type CookieAttributes = object & {
   path?: string
   domain?: string
   expires?: number | Date
-  sameSite?: string
+  sameSite?: 'strict' | 'Strict' | 'lax' | 'Lax' | 'none' | 'None'
   secure?: boolean
   [property: string]: any
 }
@@ -11,7 +11,7 @@ export type CookieAttributesConfig = object & {
   readonly path?: string
   readonly domain?: string
   readonly expires?: number | Date
-  readonly sameSite?: string
+  readonly sameSite?: 'strict' | 'Strict' | 'lax' | 'Lax' | 'none' | 'None'
   readonly secure?: boolean
   readonly [property: string]: any
 }
