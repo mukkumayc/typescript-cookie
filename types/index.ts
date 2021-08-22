@@ -1,3 +1,7 @@
+type ReadOnlyConfig<T> = {
+  readonly [Property in keyof T]: T[Property]
+}
+
 export type CookieAttributes = object & {
   path?: string
   domain?: string
@@ -7,14 +11,7 @@ export type CookieAttributes = object & {
   [property: string]: any
 }
 
-export type CookieAttributesConfig = object & {
-  readonly path?: string
-  readonly domain?: string
-  readonly expires?: number | Date
-  readonly sameSite?: 'strict' | 'Strict' | 'lax' | 'Lax' | 'none' | 'None'
-  readonly secure?: boolean
-  readonly [property: string]: any
-}
+export type CookieAttributesConfig = ReadOnlyConfig<CookieAttributes>
 
 export type ReadConverter = (value: string, name?: string) => any
 
@@ -25,10 +22,7 @@ export type CookieConverter = object & {
   write: WriteConverter
 }
 
-export type CookieConverterConfig = object & {
-  readonly read: ReadConverter
-  readonly write: WriteConverter
-}
+export type CookieConverterConfig = ReadOnlyConfig<CookieConverter>
 
 type CookiesConfig = object & {
   readonly converter: CookieConverterConfig
