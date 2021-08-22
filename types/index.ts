@@ -46,7 +46,10 @@ type CookiesApi = object & {
   ) => string | undefined | (object & { [property: string]: any })
   remove: (name: string, attributes?: CookieAttributes) => void
   withAttributes: (attributes: CookieAttributes) => Cookies
-  withConverter: (converter: { write?: WriteConverter, read?: ReadConverter }) => Cookies
+  withConverter: (converter: {
+    write?: WriteConverter
+    read?: ReadConverter
+  }) => Cookies
 }
 
 export type Cookies = CookiesConfig & CookiesApi

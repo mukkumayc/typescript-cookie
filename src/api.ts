@@ -1,7 +1,6 @@
 import {
   CookieAttributes,
   CookieAttributesConfig,
-  CookieConverter,
   CookieConverterConfig,
   ReadConverter,
   WriteConverter
