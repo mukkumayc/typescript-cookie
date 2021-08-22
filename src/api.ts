@@ -1,6 +1,8 @@
 import {
   CookieAttributes,
+  CookieAttributesConfig,
   CookieConverter,
+  CookieConverterConfig,
   ReadConverter,
   WriteConverter
 } from '../types/index'
@@ -8,9 +10,9 @@ import set from './set'
 import get from './get'
 import { writeValue as write, readValue as read } from './converter'
 
-export const defaultConverter: CookieConverter = { read, write }
+export const defaultConverter: CookieConverterConfig = { read, write }
 
-export const defaultAttributes: CookieAttributes = { path: '/' }
+export const defaultAttributes: CookieAttributesConfig = { path: '/' }
 
 export function setCookie (
   key: string,

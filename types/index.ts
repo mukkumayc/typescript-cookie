@@ -7,6 +7,15 @@ export type CookieAttributes = object & {
   [property: string]: any
 }
 
+export type CookieAttributesConfig = object & {
+  readonly path?: string
+  readonly domain?: string
+  readonly expires?: number | Date
+  readonly sameSite?: string
+  readonly secure?: boolean
+  readonly [property: string]: any
+}
+
 export type ReadConverter = (value: string, name?: string) => any
 
 export type WriteConverter = (value: any, name?: string) => string
@@ -16,9 +25,14 @@ export type CookieConverter = object & {
   write: WriteConverter
 }
 
+export type CookieConverterConfig = object & {
+  readonly read: ReadConverter
+  readonly write: WriteConverter
+}
+
 type CookiesConfig = object & {
-  readonly converter: CookieConverter
-  readonly attributes: CookieAttributes
+  readonly converter: CookieConverterConfig
+  readonly attributes: CookieAttributesConfig
 }
 
 type CookiesApi = object & {

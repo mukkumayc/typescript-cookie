@@ -83,21 +83,4 @@ describe('configuration', () => {
     })
     expect(api.set('c', 'v')).toMatch(/c=V; path=\/foo/)
   })
-
-  test("won't allow to reassign property within attributes property", () => {
-    try {
-      // throws TypeError in strict mode (ES module)
-      Cookies.attributes.path = '/foo'
-    } catch (error) {}
-    expect(Cookies.attributes.path).toEqual('/')
-  })
-
-  test("won't allow to reassign property within converter property", () => {
-    const newReadConverter = (value: string): string => ''
-    try {
-      // throws TypeError in strict mode (ES module)
-      Cookies.converter.read = newReadConverter
-    } catch (error) {}
-    expect(Cookies.converter.read).not.toBe(newReadConverter)
-  })
 })
