@@ -8,10 +8,10 @@ import {
   setCookie
 } from './api'
 
-function init (
-  converter: CookieConverter,
+function init<W, R> (
+  converter: CookieConverter<W, R>,
   defaultAttributes: CookieAttributes
-): Cookies {
+): Cookies<W, R> {
   const api: any = {
     set: function (key: any, value: any, attributes?: any) {
       return setCookie(

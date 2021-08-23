@@ -9,7 +9,13 @@ import set from './set'
 import get from './get'
 import { writeValue as write, readValue as read } from './converter'
 
-export const defaultConverter: CookieConverterConfig = { read, write }
+export const defaultConverter: CookieConverterConfig<
+string | number | boolean | undefined | null,
+string
+> = {
+  write,
+  read
+}
 
 export const defaultAttributes: CookieAttributesConfig = { path: '/' }
 
@@ -17,7 +23,7 @@ export function setCookie (
   key: string,
   value: any,
   attributes: CookieAttributes = defaultAttributes,
-  converter: WriteConverter = write
+  converter: WriteConverter<any> = write
 ): string | undefined {
   if (typeof document === 'undefined') {
     return
@@ -28,8 +34,8 @@ export function setCookie (
 
 export function getCookie (
   key: string,
-  converter: ReadConverter = read
-): string | undefined {
+  converter: ReadConverter<any> = read
+): ReturnType<typeof converter> | undefined {
   if (typeof document === 'undefined') {
     return
   }
@@ -38,8 +44,8 @@ export function getCookie (
 }
 
 export function getCookies (
-  converter: ReadConverter = read
-): (object & { [property: string]: string }) | undefined {
+  converter: ReadConverter<string> = read
+): (object & { [property: string]: ReturnType<typeof converter> }) | undefined {
   if (typeof document === 'undefined') {
     return
   }

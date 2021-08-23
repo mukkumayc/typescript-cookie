@@ -1,14 +1,14 @@
 import { ReadConverter } from '../types/index'
 import { readValue } from './converter'
 
-type GetReturn<T> = [T] extends [undefined]
+type GetReturn<T, R> = [T] extends [undefined]
   ? object & { [property: string]: string }
-  : string | undefined
+  : R | undefined
 
 export default function <T extends string | undefined>(
   key: T,
-  converter: ReadConverter = readValue
-): GetReturn<T> {
+  converter: ReadConverter<any> = readValue
+): GetReturn<T, typeof converter> {
   // To prevent the for loop in the first place assign an empty array
   // in case there are no cookies at all.
   const cookies: string[] =

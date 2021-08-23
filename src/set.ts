@@ -5,7 +5,7 @@ export default function (
   key: string,
   value: any,
   attributes: CookieAttributes & { expires?: any },
-  converter: WriteConverter = writeValue
+  converter: WriteConverter<any> = writeValue
 ): string {
   key = encodeURIComponent(key)
     .replace(/%(2[346B]|5E|60|7C)/g, decodeURIComponent)

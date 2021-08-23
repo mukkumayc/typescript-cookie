@@ -235,10 +235,11 @@ describe('getCookie', () => {
     test('conditionally decoding a particular cookie only', () => {
       document.cookie = 'c=%u5317'
       expect(
-        getCookie('c', (value, name) => {
+        getCookie('c', (value: string, name: string | undefined): string => {
           if (name === 'c') {
             return unescape(value)
           }
+          return value
         })
       ).toBe('北')
     })
@@ -297,10 +298,11 @@ describe('getCookies', () => {
     test('conditionally decoding a particular cookie only', () => {
       document.cookie = 'c=%u5317'
       expect(
-        getCookies((value, name) => {
+        getCookies((value: string, name: string | undefined): string => {
           if (name === 'c') {
             return unescape(value)
           }
+          return value
         })
       ).toStrictEqual({ c: '北' })
     })

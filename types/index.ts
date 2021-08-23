@@ -13,37 +13,37 @@ export type CookieAttributes = object & {
 
 export type CookieAttributesConfig = ReadOnlyConfig<CookieAttributes>
 
-export type ReadConverter = (value: string, name?: string) => any
+export type ReadConverter<T> = (value: string, name?: string) => T
 
-export type WriteConverter = (value: any, name?: string) => string
+export type WriteConverter<T> = (value: T, name?: string) => string
 
-export type CookieConverter = object & {
-  read: ReadConverter
-  write: WriteConverter
+export type CookieConverter<W, R> = object & {
+  write: WriteConverter<W>
+  read: ReadConverter<R>
 }
 
-export type CookieConverterConfig = ReadOnlyConfig<CookieConverter>
+export type CookieConverterConfig<W, R> = ReadOnlyConfig<CookieConverter<W, R>>
 
-type CookiesConfig = object & {
-  readonly converter: CookieConverterConfig
+type CookiesConfig<W, R> = object & {
+  readonly converter: CookieConverterConfig<W, R>
   readonly attributes: CookieAttributesConfig
 }
 
-type CookiesApi = object & {
+type CookiesApi<W, R> = object & {
   set: (
     name: string,
-    value: any,
+    value: W,
     attributes?: CookieAttributes
   ) => string | undefined
   get: (
     name?: string | undefined | null
-  ) => string | undefined | (object & { [property: string]: any })
+  ) => R | undefined | (object & { [property: string]: R })
   remove: (name: string, attributes?: CookieAttributes) => void
-  withAttributes: (attributes: CookieAttributes) => Cookies
-  withConverter: (converter: {
-    write?: WriteConverter
-    read?: ReadConverter
-  }) => Cookies
+  withAttributes: <W, R>(attributes: CookieAttributes) => Cookies<W, R>
+  withConverter: <W, R>(converter: {
+    write?: WriteConverter<W>
+    read?: ReadConverter<R>
+  }) => Cookies<W, R>
 }
 
-export type Cookies = CookiesConfig & CookiesApi
+export type Cookies<W, R> = CookiesConfig<W, R> & CookiesApi<W, R>

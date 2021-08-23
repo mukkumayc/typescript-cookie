@@ -50,7 +50,7 @@ describe('configuration', () => {
     // github.com/js-cookie/js-cookie/issues/70
     test('setting up custom write decoder', () => {
       Cookies.withConverter({
-        write: (value) => value.replace('+', '%2B')
+        write: (value: string): string => value.replace('+', '%2B')
       }).set('c', '+')
       expect(document.cookie).toMatch('c=%2B')
     })
@@ -59,7 +59,7 @@ describe('configuration', () => {
       document.cookie = 'c=%2B'
       expect(
         Cookies.withConverter({
-          read: (value) => value.replace('%2B', '+')
+          read: (value: string): string => value.replace('%2B', '+')
         }).get('c')
       ).toBe('+')
     })
@@ -72,14 +72,14 @@ describe('configuration', () => {
 
   test('setting up converters followed by default cookie attributes', () => {
     const api = Cookies.withConverter({
-      write: (value) => value.toUpperCase()
+      write: (value: string): string => value.toUpperCase()
     }).withAttributes({ path: '/foo' })
     expect(api.set('c', 'v')).toMatch(/c=V; path=\/foo/)
   })
 
   test('setting up default cookie attributes followed by converter', () => {
     const api = Cookies.withAttributes({ path: '/foo' }).withConverter({
-      write: (value) => value.toUpperCase()
+      write: (value: string): string => value.toUpperCase()
     })
     expect(api.set('c', 'v')).toMatch(/c=V; path=\/foo/)
   })
