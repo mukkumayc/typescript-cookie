@@ -2,24 +2,16 @@
 
 A simple, lightweight TypeScript API for handling cookies
 
-## Goals
+## Goals/Features
 
-- Modernize all the things, opiniated, no compromise
-- TypeScript
-- Remove grunt in favor of `npm run`
-- Use Jest for testing
+- Full TypeScript support
 - Support for ES modules only
-- Think js-cookie 4.0
-
-## Features
-
-- Accepts [any](#encoding) character
-- [Heavily](test) tested
-- No dependency
-- Supports ES modules
+- Tree-shakable
+- No dependencies
 - [RFC 6265](https://tools.ietf.org/html/rfc6265) compliant
 - Enable [custom encoding/decoding](#converters)
-- **< 800 bytes** gzipped!
+- Think: [js-cookie](https://github.com/js-cookie/js-cookie) 4.0
+- **< 700 bytes** gzipped!
 
 **👉👉 If you're viewing this at https://github.com/ts-cookie/ts-cookie, you're reading the documentation for the master branch.
 [View documentation for the latest release.](https://github.com/ts-cookie/ts-cookie/tree/latest#readme) 👈👈**
@@ -28,50 +20,62 @@ A simple, lightweight TypeScript API for handling cookies
 
 ### NPM
 
-JavaScript Cookie supports [npm](https://www.npmjs.com/package/ts-cookie) under the name `ts-cookie`.
-
 ```
 $ npm i ts-cookie
 ```
 
 ## Basic Usage
 
+Importing setter:
+
+```javascript
+import { setCookie } from 'ts-cookie'
+```
+
+All other functions not being used can be tree-shaken by a bundler.
+
+Importing all:
+
+```javascript
+import { getCookie, removeCookie, setCookie } from 'ts-cookie'
+```
+
 Create a cookie, valid across the entire site:
 
 ```javascript
-Cookies.set('name', 'value')
+setCookie('name', 'value')
 ```
 
 Create a cookie that expires 7 days from now, valid across the entire site:
 
 ```javascript
-Cookies.set('name', 'value', { expires: 7 })
+setCookie('name', 'value', { expires: 7 })
 ```
 
 Create an expiring cookie, valid to the path of the current page:
 
 ```javascript
-Cookies.set('name', 'value', { expires: 7, path: '' })
+setCookie('name', 'value', { expires: 7, path: '' })
 ```
 
 Read cookie:
 
 ```javascript
-Cookies.get('name') // => 'value'
-Cookies.get('nothing') // => undefined
+getCookie('name') // => 'value'
+getCookie('nothing') // => undefined
 ```
 
 Read all visible cookies:
 
 ```javascript
-Cookies.get() // => { name: 'value' }
+getCookies() // => { name: 'value' }
 ```
 
 _Note: It is not possible to read a particular cookie by passing one of the cookie attributes (which may or may not
 have been used when writing the cookie in question):_
 
 ```javascript
-Cookies.get('foo', { domain: 'sub.example.com' }) // `domain` won't have any effect...!
+getCookie('foo', { domain: 'sub.example.com' }) // `domain` won't have any effect...!
 ```
 
 The cookie with the name `foo` will only be available on `.get()` if it's visible from where the
@@ -80,21 +84,21 @@ code is called; the domain and/or path attribute will not have an effect when re
 Delete cookie:
 
 ```javascript
-Cookies.remove('name')
+removeCookie('name')
 ```
 
 Delete a cookie valid to the path of the current page:
 
 ```javascript
-Cookies.set('name', 'value', { path: '' })
-Cookies.remove('name') // fail!
-Cookies.remove('name', { path: '' }) // removed!
+setCookie('name', 'value', { path: '' })
+removeCookie('name') // fail!
+removeCookie('name', { path: '' }) // removed!
 ```
 
 _IMPORTANT! When deleting a cookie and you're not relying on the [default attributes](#cookie-attributes), you must pass the exact same path and domain attributes that were used to set the cookie:_
 
 ```javascript
-Cookies.remove('name', { path: '', domain: '.yourdomain.com' })
+removeCookie('name', { path: '', domain: '.yourdomain.com' })
 ```
 
 _Note: Removing a nonexistent cookie neither raises any exception nor returns any value._
@@ -109,8 +113,6 @@ _Note: According to [RFC 6265](https://tools.ietf.org/html/rfc6265#section-6.1),
 
 ## Cookie Attributes
 
-Cookie attribute defaults can be set globally by creating an instance of the api via `withAttributes()`, or individually for each call to `Cookies.set(...)` by passing a plain object as the last argument. Per-call attributes override the default attributes.
-
 ### expires
 
 Define when the cookie will be removed. Value must be a [`Number`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) which will be interpreted as days from time of creation or a [`Date`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) instance. If omitted, the cookie becomes a session cookie.
@@ -122,9 +124,9 @@ To create a cookie that expires in less than a day, you can check the [FAQ on th
 **Examples:**
 
 ```javascript
-Cookies.set('name', 'value', { expires: 365 })
-Cookies.get('name') // => 'value'
-Cookies.remove('name')
+setCookie('name', 'value', { expires: 365 })
+getCookie('name') // => 'value'
+removeCookie('name')
 ```
 
 ### path
@@ -136,9 +138,9 @@ A [`String`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/G
 **Examples:**
 
 ```javascript
-Cookies.set('name', 'value', { path: '' })
-Cookies.get('name') // => 'value'
-Cookies.remove('name', { path: '' })
+setCookie('name', 'value', { path: '' })
+getCookie('name') // => 'value'
+removeCookie('name', { path: '' })
 ```
 
 ### domain
@@ -152,8 +154,8 @@ A [`String`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/G
 Assuming a cookie that is being created on `site.com`:
 
 ```javascript
-Cookies.set('name', 'value', { domain: 'subdomain.site.com' })
-Cookies.get('name') // => undefined (need to read at 'subdomain.site.com')
+setCookie('name', 'value', { domain: 'subdomain.site.com' })
+getCookie('name') // => undefined (need to read at 'subdomain.site.com')
 ```
 
 ### secure
@@ -165,9 +167,9 @@ Either `true` or `false`, indicating if the cookie transmission requires a secur
 **Examples:**
 
 ```javascript
-Cookies.set('name', 'value', { secure: true })
-Cookies.get('name') // => 'value'
-Cookies.remove('name')
+setCookie('name', 'value', { secure: true })
+getCookie('name') // => 'value'
+removeCookie('name')
 ```
 
 ### sameSite
@@ -181,52 +183,56 @@ Default: not set.
 **Examples:**
 
 ```javascript
-Cookies.set('name', 'value', { sameSite: 'strict' })
-Cookies.get('name') // => 'value'
-Cookies.remove('name')
-```
-
-### Setting up defaults
-
-```javascript
-const api = Cookies.withAttributes({ path: '/', domain: '.example.com' })
+setCookie('name', 'value', { sameSite: 'strict' })
+getCookie('name') // => 'value'
+removeCookie('name')
 ```
 
 ## Converters
 
 ### Read
 
-Create a new instance of the api that overrides the default decoding implementation. All get methods that rely in a proper decoding to work, such as `Cookies.get()` and `Cookies.get('name')`, will run the given converter for each cookie. The returned value will be used as the cookie value.
+All get methods that rely on a proper decoding to work, such as `getCookies()` and `getCookie()`, will run the given converter for each cookie. The returned value will be used as the cookie value.
 
 Example from reading one of the cookies that can only be decoded using the `escape` function:
 
-```javascript
+```typescript
+import { defaultConverter, getCookie, getCookies } from 'ts-cookie'
+
 document.cookie = 'escaped=%u5317'
 document.cookie = 'default=%E5%8C%97'
-var cookies = Cookies.withConverter({
-  read: function (value, name) {
-    if (name === 'escaped') {
-      return unescape(value)
-    }
-    // Fall back to default for all other cookies
-    return Cookies.converter.read(value, name)
-  },
-})
-cookies.get('escaped') // 北
-cookies.get('default') // 北
-cookies.get() // { escaped: '北', default: '北' }
+
+const read: ReadConverter<string> = (value, name) => {
+  if (name === 'escaped') {
+    return unescape(value)
+  }
+  // Fall back to default for all other cookies
+  return defaultConverter.read(value, name)
+}
+
+getCookie('escaped', read) // => '北'
+getCookie('default', read) // => '北'
+getCookies(read) // => { escaped: '北', default: '北' }
 ```
 
 ### Write
 
-Create a new instance of the api that overrides the default encoding implementation:
+Set a cookie with overriding the default encoding implementation:
 
-```javascript
-Cookies.withConverter({
-  write: function (value, name) {
-    return value.toUpperCase()
-  },
-})
+```typescript
+import { defaultAttributes, setCookie } from 'ts-cookie'
+
+const write: WriteConverter<string> = (value) => value.toUpperCase()
+
+setCookie('uppercased', 'foo', defaultAttributes, write) // => 'uppercased=FOO; path=/'
+```
+
+## js-cookie compatibility
+
+To ease migration while getting full TypeScript support there's a compat module that provides an api similar to [js-cookie](https://github.com/js-cookie/js-cookie):
+
+```typescript
+import Cookies from 'ts-cookie'
 ```
 
 ## Testing
@@ -235,7 +241,7 @@ Cookies.withConverter({
 $ npm test
 ```
 
-Or run tests continously:
+Run tests continuously:
 
 ```
 $ npm test -- --watch
