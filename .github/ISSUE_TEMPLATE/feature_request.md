@@ -6,12 +6,6 @@ labels: 'feature request'
 assignees: ''
 ---
 
-<!--
-⚠️ Before posting your issue, please check our FAQ:
-
-https://github.com/js-cookie/js-cookie/wiki/Frequently-Asked-Questions
--->
-
 **Is your feature request related to a problem? Please describe.**
 A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
 

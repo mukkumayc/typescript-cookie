@@ -6,12 +6,6 @@ labels: 'bug'
 assignees: ''
 ---
 
-<!--
-⚠️ Before posting your issue, please check our FAQ:
-
-https://github.com/js-cookie/js-cookie/wiki/Frequently-Asked-Questions
--->
-
 **Describe the bug**
 A clear and concise description of what the bug is.
 
