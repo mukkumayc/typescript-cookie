@@ -273,7 +273,7 @@ _GitHub releases are created as a draft and need to be published manually!
 ## Supporters
 
 <p>
-  <a href="https://www.browserstack.com/"><img src="https://raw.githubusercontent.com/wiki/ts-cookie/ts-cookie/Browserstack-logo%402x.png" width="150"></a>
+  <a href="https://www.browserstack.com/"><img src="https://raw.githubusercontent.com/wiki/js-cookie/js-cookie/Browserstack-logo%402x.png" width="150"></a>
 </p>
 
 Many thanks to [BrowserStack](https://www.browserstack.com/) for providing unlimited browser testing free of cost.
