@@ -41,7 +41,7 @@ export default [
     input: 'src/compat.ts',
     output: [
       {
-        file: 'dist/js.cookie.compat.mjs',
+        file: 'dist/ts-cookie.compat.mjs',
         format: 'esm'
       }
     ],

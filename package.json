@@ -2,11 +2,11 @@
   "name": "ts-cookie",
   "version": "0.0.1",
   "description": "A simple, lightweight API for handling cookies in the browser",
-  "module": "dist/js.cookie.mjs",
-  "unpkg": "dist/js.cookie.min.mjs",
-  "jsdelivr": "dist/js.cookie.min.mjs",
+  "module": "dist/ts-cookie.mjs",
+  "unpkg": "dist/ts-cookie.min.mjs",
+  "jsdelivr": "dist/ts-cookie.min.mjs",
   "exports": {
-    "import": "./dist/js.cookie.mjs"
+    "import": "./dist/ts-cookie.mjs"
   },
   "directories": {
     "test": "test"
