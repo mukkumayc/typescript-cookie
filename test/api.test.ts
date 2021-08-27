@@ -205,11 +205,6 @@ describe('getCookie', () => {
     expect(getCookie('c')).toBe('Ж')
   })
 
-  test('when cookie-octet enclosed in DQUOTE (RFC 6265)', () => {
-    document.cookie = 'c="v"'
-    expect(getCookie('c')).toBe('v')
-  })
-
   // github.com/js-cookie/js-cookie/issues/196
   test('when there is another unrelated cookie with malformed encoding in the name', () => {
     document.cookie = '%A1=foo'

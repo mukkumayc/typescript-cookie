@@ -1,6 +1,6 @@
 /* global describe, expect, test */
 
-import { writeValue } from '../src/converter'
+import { writeValue, readValue } from '../src/converter'
 
 describe('writeValue', () => {
   test('when number value', () => {
@@ -17,5 +17,13 @@ describe('writeValue', () => {
 
   test('when undefined value', () => {
     expect(writeValue(undefined)).toBe('undefined')
+  })
+})
+
+describe('readValue', () => {
+  describe('RFC 6265', () => {
+    test('when cookie-octet enclosed in DQUOTE', () => {
+      expect(readValue('"v"')).toBe('v')
+    })
   })
 })

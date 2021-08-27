@@ -10,5 +10,8 @@ string | number | boolean | undefined | null
 }
 
 export const readValue: ReadConverter<string> = (value: string): string => {
+  if (value[0] === '"') {
+    value = value.slice(1, -1)
+  }
   return value.replace(/(%[\dA-F]{2})+/gi, decodeURIComponent)
 }

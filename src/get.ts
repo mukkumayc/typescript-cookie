@@ -16,11 +16,7 @@ export default function <T extends string | undefined>(
   const jar: any = {}
   for (let i = 0; i < cookies.length; i++) {
     const parts: string[] = cookies[i].split('=')
-    let value: string = parts.slice(1).join('=')
-
-    if (value[0] === '"') {
-      value = value.slice(1, -1)
-    }
+    const value: string = parts.slice(1).join('=')
 
     try {
       const foundKey: string = decodeURIComponent(parts[0])
