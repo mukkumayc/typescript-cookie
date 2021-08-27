@@ -189,20 +189,9 @@ describe('getCookie', () => {
     expect(getCookie('c')).toBe('foo=bar')
   })
 
-  // github.com/carhartl/jquery-cookie/issues/215
-  test('when percent character in cookie value', () => {
-    document.cookie = 'c=foo%'
-    expect(getCookie('c')).toBe('foo%')
-  })
-
   test('when unencoded percent character in cookie value mixed with encoded values not permitted', () => {
     document.cookie = 'c=foo%bar%22baz%qux'
     expect(getCookie('bad')).toBeUndefined()
-  })
-
-  test('when lowercase percent character in cookie value', () => {
-    document.cookie = 'c=%d0%96'
-    expect(getCookie('c')).toBe('Ж')
   })
 
   // github.com/js-cookie/js-cookie/issues/196

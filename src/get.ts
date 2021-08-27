@@ -1,5 +1,5 @@
 import { ReadConverter } from '../types/index'
-import { readValue } from './converter'
+import { readName, readValue } from './converter'
 
 type GetReturn<T, R> = [T] extends [undefined]
   ? object & { [property: string]: string }
@@ -19,7 +19,7 @@ export default function <T extends string | undefined>(
     const value: string = parts.slice(1).join('=')
 
     try {
-      const foundKey: string = decodeURIComponent(parts[0])
+      const foundKey: string = readName(parts[0])
       jar[foundKey] = converter(value, foundKey)
 
       if (key === foundKey) {

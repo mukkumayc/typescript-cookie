@@ -1,5 +1,5 @@
 import { CookieAttributes, WriteConverter } from '../types/index'
-import { writeValue } from './converter'
+import { writeName, writeValue } from './converter'
 
 export default function (
   key: string,
@@ -7,10 +7,6 @@ export default function (
   attributes: CookieAttributes & { expires?: any },
   converter: WriteConverter<any> = writeValue
 ): string {
-  key = encodeURIComponent(key)
-    .replace(/%(2[346B]|5E|60|7C)/g, decodeURIComponent)
-    .replace(/[()]/g, escape)
-
   // Copy incoming attributes as to not alter the original object..
   attributes = Object.assign({}, attributes)
 
@@ -47,7 +43,7 @@ export default function (
     stringifiedAttributes += `=${attributeValue}`
   }
 
-  return (document.cookie = `${key}=${converter(
+  return (document.cookie = `${writeName(key)}=${converter(
     value,
     key
   )}${stringifiedAttributes}`)

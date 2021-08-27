@@ -1,5 +1,10 @@
 import { ReadConverter, WriteConverter } from '../types/index'
 
+export const writeName: (name: string) => string = (name) =>
+  encodeURIComponent(name)
+    .replace(/%(2[346B]|5E|60|7C)/g, decodeURIComponent)
+    .replace(/[()]/g, escape)
+
 export const writeValue: WriteConverter<
 string | number | boolean | undefined | null
 > = (value: any): string => {
@@ -8,6 +13,8 @@ string | number | boolean | undefined | null
     decodeURIComponent
   )
 }
+
+export const readName: (name: string) => string = decodeURIComponent
 
 export const readValue: ReadConverter<string> = (value: string): string => {
   if (value[0] === '"') {
