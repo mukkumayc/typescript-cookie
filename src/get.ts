@@ -9,19 +9,14 @@ export default function <T extends string | undefined>(
   key: T,
   converter: ReadConverter<any> = readValue
 ): GetReturn<T, typeof converter> {
-  // To prevent the for loop in the first place assign an empty array
-  // in case there are no cookies at all.
-  const cookies: string[] =
-    document.cookie.length > 0 ? document.cookie.split('; ') : []
+  const scan = /(?:^|; )([^=]*)=([^;]*)/g
   const jar: any = {}
-  for (let i = 0; i < cookies.length; i++) {
-    const parts: string[] = cookies[i].split('=')
-    const value: string = parts.slice(1).join('=')
-
+  let match
+  while ((match = scan.exec(document.cookie)) != null) {
     try {
-      const foundKey: string = readName(parts[0])
-      jar[foundKey] = converter(value, foundKey)
-
+      const foundKey = readName(match[1])
+      const value = converter(match[2], foundKey)
+      jar[foundKey] = value
       if (key === foundKey) {
         break
       }
