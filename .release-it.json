@@ -1,8 +1,10 @@
 {
   "git": {
+    "commitArgs": ["-S"],
     "commitMessage": "Prepare for v${version} release",
     "requireCleanWorkingDir": true,
     "tagAnnotation": "Release v${version}",
+    "tagArgs": ["-s"],
     "tagName": "v${version}"
   },
   "github": {
