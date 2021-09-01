@@ -24,11 +24,7 @@ export function setCookie (
   value: any,
   attributes: CookieAttributes = defaultAttributes,
   converter: WriteConverter<any> = write
-): string | undefined {
-  if (typeof document === 'undefined') {
-    return
-  }
-
+): string {
   return set(key, value, attributes, converter)
 }
 
@@ -36,20 +32,12 @@ export function getCookie (
   key: string,
   converter: ReadConverter<any> = read
 ): ReturnType<typeof converter> | undefined {
-  if (typeof document === 'undefined') {
-    return
-  }
-
   return get(key, converter)
 }
 
 export function getCookies (
   converter: ReadConverter<string> = read
-): (object & { [property: string]: ReturnType<typeof converter> }) | undefined {
-  if (typeof document === 'undefined') {
-    return
-  }
-
+): object & { [property: string]: ReturnType<typeof converter> } {
   return get(undefined, converter)
 }
 

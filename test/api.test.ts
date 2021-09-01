@@ -76,7 +76,7 @@ describe('setCookie', () => {
     })
 
     test('when expires as fraction of a day', () => {
-      const written = setCookie('c', 'v', { expires: 0.5 }) as string
+      const written = setCookie('c', 'v', { expires: 0.5 })
       const dateMatch = written.match(/expires=(.+)/)
       const stringifiedDate = dateMatch != null ? dateMatch[1] : ''
       const expires = new Date(stringifiedDate)
