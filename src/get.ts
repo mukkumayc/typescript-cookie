@@ -15,8 +15,7 @@ export default function <T extends string | undefined>(
   while ((match = scan.exec(document.cookie)) != null) {
     try {
       const found = decodeName(match[1])
-      const value = decodeValue(match[2], found)
-      jar[found] = value
+      jar[found] = decodeValue(match[2], found)
       if (name === found) {
         break
       }
