@@ -220,11 +220,11 @@ getCookies(read) // => { escaped: '北', default: '北' }
 Set a cookie with overriding the default encoding implementation:
 
 ```typescript
-import { defaultAttributes, setCookie } from 'ts-cookie'
+import { setCookie } from 'ts-cookie'
 
 const write: WriteConverter<string> = (value) => value.toUpperCase()
 
-setCookie('uppercased', 'foo', defaultAttributes, write) // => 'uppercased=FOO; path=/'
+setCookie('uppercased', 'foo', undefined, write) // => 'uppercased=FOO; path=/'
 ```
 
 ## js-cookie compatibility
