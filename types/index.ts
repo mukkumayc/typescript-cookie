@@ -17,6 +17,16 @@ export type Decoder<T> = (value: string, name?: string) => T
 
 export type Encoder<T> = (value: T, name?: string) => string
 
+export type CookieDecoding<T> = object & {
+  readonly decodeName?: Decoder<string>
+  readonly decodeValue?: Decoder<T>
+}
+
+export type CookieEncoding<T> = object & {
+  readonly encodeName?: Encoder<string>
+  readonly encodeValue?: Encoder<T>
+}
+
 export type CookieCodecConfig<W, R> = object & {
   readonly decodeName: Decoder<string>
   readonly decodeValue: Decoder<R>

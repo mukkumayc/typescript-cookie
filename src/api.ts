@@ -2,8 +2,8 @@ import {
   CookieAttributes,
   CookieAttributesConfig,
   CookieCodecConfig,
-  Decoder,
-  Encoder
+  CookieDecoding,
+  CookieEncoding
 } from '../types/index'
 import set from './set'
 import get from './get'
@@ -35,10 +35,7 @@ export function setCookie (
   {
     encodeValue = defaultValueEncoder,
     encodeName = defaultNameEncoder
-  }: {
-    encodeValue?: Encoder<any>
-    encodeName?: Encoder<string>
-  } = {}
+  }: CookieEncoding<any> = {}
 ): string {
   return set(key, value, attributes, encodeValue, encodeName)
 }
@@ -48,10 +45,7 @@ export function getCookie (
   {
     decodeValue = defaultValueDecoder,
     decodeName = defaultNameDecoder
-  }: {
-    decodeValue?: Decoder<any>
-    decodeName?: Decoder<string>
-  } = {}
+  }: CookieDecoding<any> = {}
 ): ReturnType<typeof decodeValue> | undefined {
   return get(key, decodeValue, decodeName)
 }
@@ -59,10 +53,9 @@ export function getCookie (
 export function getCookies ({
   decodeValue = defaultValueDecoder,
   decodeName = defaultNameDecoder
-}: {
-  decodeValue?: Decoder<any>
-  decodeName?: Decoder<string>
-} = {}): object & { [property: string]: ReturnType<typeof decodeValue> } {
+}: CookieDecoding<any> = {}): object & {
+    [property: string]: ReturnType<typeof decodeValue>
+  } {
   return get(undefined, decodeValue, decodeName)
 }
 
