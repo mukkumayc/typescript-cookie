@@ -18,7 +18,9 @@ function init<W, R> (
         key,
         value,
         Object.assign({}, this.attributes, attributes),
-        this.converter.write
+        {
+          encodeValue: this.converter.write
+        }
       )
     },
     get: function (key?: any) {

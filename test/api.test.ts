@@ -1,12 +1,6 @@
 /* global afterEach, describe, expect, test */
 
-import {
-  defaultAttributes,
-  getCookie,
-  getCookies,
-  removeCookie,
-  setCookie
-} from '../src/api'
+import { getCookie, getCookies, removeCookie, setCookie } from '../src/api'
 
 describe('setCookie', () => {
   afterEach(() => {
@@ -143,27 +137,37 @@ describe('setCookie', () => {
     })
   })
 
-  describe('with converter', () => {
-    test('customizing write behavior', () => {
-      setCookie('c', 'v', defaultAttributes, (value) => value.toUpperCase())
+  describe('encode', () => {
+    test('with customized value encoding', () => {
+      setCookie('c', 'v', undefined, {
+        encodeValue: (value) => value.toUpperCase()
+      })
       expect(document.cookie).toBe('c=V')
     })
 
-    test('conditionally encoding a particular cookie only', () => {
-      setCookie('c', '北', defaultAttributes, (value, name) => {
-        if (name === 'c') {
-          return escape(value)
+    test('conditionally encoding a particular cookie value only', () => {
+      setCookie('c', '北', undefined, {
+        encodeValue: (value, name) => {
+          if (name === 'c') {
+            return escape(value)
+          }
+          return value
         }
-        return value
       })
       expect(document.cookie).toBe('c=%u5317')
     })
 
     test('converting non-String values', () => {
-      setCookie('c', { foo: 'bar' }, defaultAttributes, (value) =>
-        JSON.stringify(value)
-      )
+      setCookie('c', { foo: 'bar' }, undefined, {
+        encodeValue: (value) => JSON.stringify(value)
+      })
       expect(document.cookie).toBe('c={"foo":"bar"}')
+    })
+
+    test('with customized name encoding', () => {
+      setCookie('c[]', 'v', undefined, { encodeName: (value) => value })
+      expect(document.cookie).toBe('c[]=v')
+      document.cookie = 'c[]=v; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT'
     })
   })
 })
@@ -210,29 +214,41 @@ describe('getCookie', () => {
     document.cookie = 'invalid=foo; expires=Thu, 01 Jan 1970 00:00:00 GMT'
   })
 
-  describe('with converter', () => {
-    test('customizing read behavior', () => {
+  describe('decode', () => {
+    test('with customized value decoding', () => {
       document.cookie = 'c=v'
-      expect(getCookie('c', (value) => value.toUpperCase())).toBe('V')
+      expect(
+        getCookie('c', { decodeValue: (value) => value.toUpperCase() })
+      ).toBe('V')
     })
 
-    test('conditionally decoding a particular cookie only', () => {
+    test('conditionally decoding a particular cookie value only', () => {
       document.cookie = 'c=%u5317'
       expect(
-        getCookie('c', (value: string, name: string | undefined): string => {
-          if (name === 'c') {
-            return unescape(value)
+        getCookie('c', {
+          decodeValue: (value, name) => {
+            if (name === 'c') {
+              return unescape(value)
+            }
+            return value
           }
-          return value
         })
       ).toBe('北')
     })
 
     test('converting non-String values', () => {
       document.cookie = 'c={"foo":"bar"}'
-      expect(getCookie('c', (value) => JSON.parse(value))).toStrictEqual({
+      expect(
+        getCookie('c', { decodeValue: (value) => JSON.parse(value) })
+      ).toStrictEqual({
         foo: 'bar'
       })
+    })
+
+    test('with customized name decoding', () => {
+      document.cookie = 'c[]=v'
+      expect(getCookie('c[]', { decodeName: (name) => name })).toBe('v')
+      document.cookie = 'c[]=v; expires=Thu, 01 Jan 1970 00:00:00 GMT'
     })
   })
 })
@@ -271,31 +287,45 @@ describe('getCookies', () => {
     document.cookie = 'invalid=foo; expires=Thu, 01 Jan 1970 00:00:00 GMT'
   })
 
-  describe('with converter', () => {
-    test('customizing read behavior', () => {
+  describe('decode', () => {
+    test('with customized value decoding', () => {
       document.cookie = 'c=v'
-      expect(getCookies((value) => value.toUpperCase())).toStrictEqual({
+      expect(
+        getCookies({ decodeValue: (value) => value.toUpperCase() })
+      ).toStrictEqual({
         c: 'V'
       })
     })
 
-    test('conditionally decoding a particular cookie only', () => {
+    test('conditionally decoding a particular cookie value only', () => {
       document.cookie = 'c=%u5317'
       expect(
-        getCookies((value: string, name: string | undefined): string => {
-          if (name === 'c') {
-            return unescape(value)
+        getCookies({
+          decodeValue: (value, name) => {
+            if (name === 'c') {
+              return unescape(value)
+            }
+            return value
           }
-          return value
         })
       ).toStrictEqual({ c: '北' })
     })
 
     test('converting non-String values', () => {
       document.cookie = 'c={"foo":"bar"}'
-      expect(getCookies((value) => JSON.parse(value))).toStrictEqual({
+      expect(
+        getCookies({ decodeValue: (value) => JSON.parse(value) })
+      ).toStrictEqual({
         c: { foo: 'bar' }
       })
+    })
+
+    test('with customized name decoding', () => {
+      document.cookie = 'c[]=v'
+      expect(getCookies({ decodeName: (name) => name })).toStrictEqual({
+        'c[]': 'v'
+      })
+      document.cookie = 'c[]=v; expires=Thu, 01 Jan 1970 00:00:00 GMT'
     })
   })
 })
