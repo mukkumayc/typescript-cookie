@@ -5,7 +5,7 @@ type GetReturn<T, R> = [T] extends [undefined]
   : R | undefined
 
 export default function <T extends string | undefined>(
-  key: T,
+  name: T,
   decodeValue: Decoder<any>,
   decodeName: Decoder<string>
 ): GetReturn<T, typeof decodeValue> {
@@ -14,14 +14,14 @@ export default function <T extends string | undefined>(
   let match
   while ((match = scan.exec(document.cookie)) != null) {
     try {
-      const foundKey = decodeName(match[1])
-      const value = decodeValue(match[2], foundKey)
-      jar[foundKey] = value
-      if (key === foundKey) {
+      const found = decodeName(match[1])
+      const value = decodeValue(match[2], found)
+      jar[found] = value
+      if (name === found) {
         break
       }
     } catch (e) {}
   }
 
-  return key != null ? jar[key] : jar
+  return name != null ? jar[name] : jar
 }

@@ -1,7 +1,7 @@
 import { CookieAttributes, Encoder } from '../types/index'
 
 export default function (
-  key: string,
+  name: string,
   value: any,
   attributes: CookieAttributes & { expires?: any },
   encodeValue: Encoder<any>,
@@ -43,8 +43,8 @@ export default function (
     stringifiedAttributes += `=${attributeValue}`
   }
 
-  return (document.cookie = `${encodeName(key)}=${encodeValue(
+  return (document.cookie = `${encodeName(name)}=${encodeValue(
     value,
-    key
+    name
   )}${stringifiedAttributes}`)
 }
