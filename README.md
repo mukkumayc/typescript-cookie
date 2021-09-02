@@ -9,7 +9,7 @@ A simple, lightweight TypeScript API for handling cookies.
 - Tree-shakable
 - No dependencies
 - [RFC 6265](https://tools.ietf.org/html/rfc6265) compliant
-- Enable [custom encoding/decoding](#converters)
+- Enable [custom encoding/decoding](#codec)
 - Think: [js-cookie](https://github.com/js-cookie/js-cookie) 4.0
 - **< 700 bytes** gzipped!
 
@@ -107,7 +107,7 @@ _Note: Removing a nonexistent cookie neither raises any exception nor returns an
 
 This project is [RFC 6265](http://tools.ietf.org/html/rfc6265#section-4.1.1) compliant. All special characters that are not allowed in the cookie-name or cookie-value are encoded with each one's UTF-8 Hex equivalent using [percent-encoding](http://en.wikipedia.org/wiki/Percent-encoding).  
 The only character in cookie-name or cookie-value that is allowed and still encoded is the percent `%` character, it is escaped in order to interpret percent input as literal.  
-Please note that the default encoding/decoding strategy is meant to be interoperable [only between cookies that are read/written by ts-cookie](https://github.com/ts-cookie/ts-cookie/pull/200#discussion_r63270778). To override the default encoding/decoding strategy you need to use a [converter](#converters).
+Please note that the default encoding/decoding strategy is meant to be interoperable [only between cookies that are read/written by ts-cookie](https://github.com/ts-cookie/ts-cookie/pull/200#discussion_r63270778). It's possible to [override the default encoding/decoding strategy](#codec).
 
 _Note: According to [RFC 6265](https://tools.ietf.org/html/rfc6265#section-6.1), your cookies may get deleted if they are too big or there are too many cookies in the same domain, [more details here](https://github.com/ts-cookie/ts-cookie/wiki/Frequently-Asked-Questions#why-are-my-cookies-being-deleted)._
 
@@ -188,26 +188,26 @@ getCookie('name') // => 'value'
 removeCookie('name')
 ```
 
-## Converters
+## Codec
 
-### Read
+### Decode
 
-All get methods that rely on a proper decoding to work, such as `getCookies()` and `getCookie()`, will run the given converter for each cookie. The returned value will be used as the cookie value.
+All get methods that rely on a proper decoding to work, such as `getCookies()` and `getCookie()`, will run the given decoder for each cookie. The returned value will be used as the cookie value.
 
 Example from reading one of the cookies that can only be decoded using the `escape` function:
 
 ```typescript
-import { defaultConverter, getCookie, getCookies } from 'ts-cookie'
+import { defaultCodec, getCookie, getCookies } from 'ts-cookie'
 
 document.cookie = 'escaped=%u5317'
 document.cookie = 'default=%E5%8C%97'
 
-const read: ReadConverter<string> = (value, name) => {
+const read: Decoder<string> = (value, name) => {
   if (name === 'escaped') {
     return unescape(value)
   }
   // Fall back to default for all other cookies
-  return defaultConverter.read(value, name)
+  return defaultCodec.decodeValue(value, name)
 }
 
 getCookie('escaped', read) // => '北'
@@ -215,14 +215,14 @@ getCookie('default', read) // => '北'
 getCookies(read) // => { escaped: '北', default: '北' }
 ```
 
-### Write
+### Encode
 
 Set a cookie with overriding the default encoding implementation:
 
 ```typescript
 import { setCookie } from 'ts-cookie'
 
-const write: WriteConverter<string> = (value) => value.toUpperCase()
+const write: Encoder<string> = (value) => value.toUpperCase()
 
 setCookie('uppercased', 'foo', undefined, write) // => 'uppercased=FOO; path=/'
 ```

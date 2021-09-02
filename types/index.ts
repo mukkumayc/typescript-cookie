@@ -13,13 +13,20 @@ export type CookieAttributes = object & {
 
 export type CookieAttributesConfig = ReadOnlyConfig<CookieAttributes>
 
-export type ReadConverter<T> = (value: string, name?: string) => T
+export type Decoder<T> = (value: string, name?: string) => T
 
-export type WriteConverter<T> = (value: T, name?: string) => string
+export type Encoder<T> = (value: T, name?: string) => string
+
+export type CookieCodecConfig<W, R> = object & {
+  readonly decodeName: Decoder<string>
+  readonly decodeValue: Decoder<R>
+  readonly encodeName: Encoder<string>
+  readonly encodeValue: Encoder<W>
+}
 
 export type CookieConverter<W, R> = object & {
-  write: WriteConverter<W>
-  read: ReadConverter<R>
+  read: Decoder<R>
+  write: Encoder<W>
 }
 
 export type CookieConverterConfig<W, R> = ReadOnlyConfig<CookieConverter<W, R>>
@@ -41,8 +48,8 @@ type CookiesApi<W, R> = object & {
   remove: (name: string, attributes?: CookieAttributes) => void
   withAttributes: <W, R>(attributes: CookieAttributes) => Cookies<W, R>
   withConverter: <W, R>(converter: {
-    write?: WriteConverter<W>
-    read?: ReadConverter<R>
+    write?: Encoder<W>
+    read?: Decoder<R>
   }) => Cookies<W, R>
 }
 

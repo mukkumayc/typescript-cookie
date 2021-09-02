@@ -1,11 +1,11 @@
-import { ReadConverter, WriteConverter } from '../types/index'
+import { Decoder, Encoder } from '../types/index'
 
-export const writeName: (name: string) => string = (name) =>
+export const encodeName: (name: string) => string = (name) =>
   encodeURIComponent(name)
     .replace(/%(2[346B]|5E|60|7C)/g, decodeURIComponent)
     .replace(/[()]/g, escape)
 
-export const writeValue: WriteConverter<
+export const encodeValue: Encoder<
 string | number | boolean | undefined | null
 > = (value: any): string => {
   return encodeURIComponent(value as string).replace(
@@ -14,9 +14,9 @@ string | number | boolean | undefined | null
   )
 }
 
-export const readName: (name: string) => string = decodeURIComponent
+export const decodeName: (name: string) => string = decodeURIComponent
 
-export const readValue: ReadConverter<string> = (value: string): string => {
+export const decodeValue: Decoder<string> = (value: string): string => {
   if (value[0] === '"') {
     value = value.slice(1, -1)
   }

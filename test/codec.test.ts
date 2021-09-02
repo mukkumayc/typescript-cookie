@@ -1,6 +1,6 @@
 /* global describe, expect, test */
 
-import { readName, readValue, writeName, writeValue } from '../src/converter'
+import { decodeName, decodeValue, encodeName, encodeValue } from '../src/codec'
 
 const NAME_DISALLOWED_CHARS_INPUT_OUTPUT: any = {
   '(': '%28',
@@ -32,87 +32,91 @@ const VALUE_DISALLOWED_CHARS_INPUT_OUTPUT: any = {
   '\\': '%5C'
 }
 
-describe('writeName', () => {
+describe('encodeName', () => {
   describe('RFC 6265 compliance', () => {
     test('with disallowed character in cookie name (token)', () => {
       for (const input in NAME_DISALLOWED_CHARS_INPUT_OUTPUT) {
-        expect(writeName(input)).toBe(NAME_DISALLOWED_CHARS_INPUT_OUTPUT[input])
+        expect(encodeName(input)).toBe(
+          NAME_DISALLOWED_CHARS_INPUT_OUTPUT[input]
+        )
       }
     })
 
     test('with more than one disallowed character in cookie name', () => {
-      expect(writeName('(())')).toBe('%28%28%29%29')
+      expect(encodeName('(())')).toBe('%28%28%29%29')
     })
   })
 })
 
-describe('writeValue', () => {
+describe('encodeValue', () => {
   test('when number value', () => {
-    expect(writeValue(1234)).toBe('1234')
+    expect(encodeValue(1234)).toBe('1234')
   })
 
   test('when boolean value', () => {
-    expect(writeValue(true)).toBe('true')
+    expect(encodeValue(true)).toBe('true')
   })
 
   test('when null value', () => {
-    expect(writeValue(null)).toBe('null')
+    expect(encodeValue(null)).toBe('null')
   })
 
   test('when undefined value', () => {
-    expect(writeValue(undefined)).toBe('undefined')
+    expect(encodeValue(undefined)).toBe('undefined')
   })
 
   describe('RFC 6265 compliance', () => {
     test('with disallowed character in cookie value (cookie-octet)', () => {
       for (const input in VALUE_DISALLOWED_CHARS_INPUT_OUTPUT) {
-        expect(writeValue(input)).toBe(
+        expect(encodeValue(input)).toBe(
           VALUE_DISALLOWED_CHARS_INPUT_OUTPUT[input]
         )
       }
     })
 
     test('with more than one disallowed character in cookie value', () => {
-      expect(writeValue(';;')).toBe('%3B%3B')
+      expect(encodeValue(';;')).toBe('%3B%3B')
     })
   })
 })
 
-describe('readName', () => {
+describe('decodeName', () => {
   describe('RFC 6265 compliance', () => {
     test('with disallowed character in cookie name (token)', () => {
       for (const input in NAME_DISALLOWED_CHARS_INPUT_OUTPUT) {
-        expect(readName(NAME_DISALLOWED_CHARS_INPUT_OUTPUT[input])).toBe(input)
+        expect(decodeName(NAME_DISALLOWED_CHARS_INPUT_OUTPUT[input])).toBe(
+          input
+        )
       }
     })
   })
 })
 
-describe('readValue', () => {
+describe('decodeValue', () => {
   // github.com/carhartl/jquery-cookie/issues/215
   test('when percent character in cookie value', () => {
-    expect(readValue('foo%')).toBe('foo%')
+    expect(decodeValue('foo%')).toBe('foo%')
   })
 
   test('when lowercase percent character in cookie value', () => {
-    expect(readValue('%d0%96')).toBe('Ж')
+    expect(decodeValue('%d0%96')).toBe('Ж')
   })
 
   describe('RFC 6265 compliance', () => {
     test('when value (cookie-octet) enclosed in DQUOTE', () => {
-      expect(readValue('"v"')).toBe('v')
+      expect(decodeValue('"v"')).toBe('v')
     })
 
     test('with disallowed, encoded character in cookie value', () => {
       for (const input in VALUE_DISALLOWED_CHARS_INPUT_OUTPUT) {
-        expect(readValue(VALUE_DISALLOWED_CHARS_INPUT_OUTPUT[input])).toBe(
+        expect(decodeValue(VALUE_DISALLOWED_CHARS_INPUT_OUTPUT[input])).toBe(
           input
         )
       }
     })
 
     test('with more than one disallowed, encoded character in cookie value', () => {
-      expect(readValue('%3B%3B')).toBe(';;')
+      expect(decodeValue('%3B%3B')).toBe(';;')
     })
   })
 })

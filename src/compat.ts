@@ -1,7 +1,7 @@
 import { CookieAttributes, CookieConverter, Cookies } from '../types/index'
 import {
   defaultAttributes,
-  defaultConverter,
+  defaultCodec,
   getCookie,
   getCookies,
   removeCookie,
@@ -54,4 +54,7 @@ function init<W, R> (
   return Object.create(api, config)
 }
 
-export default init(defaultConverter, defaultAttributes)
+export default init(
+  { read: defaultCodec.decodeValue, write: defaultCodec.encodeValue },
+  defaultAttributes
+)

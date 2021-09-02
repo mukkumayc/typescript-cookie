@@ -1,4 +1,4 @@
-import { ReadConverter } from '../types/index'
+import { Decoder } from '../types/index'
 
 type GetReturn<T, R> = [T] extends [undefined]
   ? object & { [property: string]: string }
@@ -6,16 +6,16 @@ type GetReturn<T, R> = [T] extends [undefined]
 
 export default function <T extends string | undefined>(
   key: T,
-  convertValue: ReadConverter<any>,
-  convertName: ReadConverter<string>
-): GetReturn<T, typeof convertValue> {
+  decodeValue: Decoder<any>,
+  decodeName: Decoder<string>
+): GetReturn<T, typeof decodeValue> {
   const scan = /(?:^|; )([^=]*)=([^;]*)/g
   const jar: any = {}
   let match
   while ((match = scan.exec(document.cookie)) != null) {
     try {
-      const foundKey = convertName(match[1])
-      const value = convertValue(match[2], foundKey)
+      const foundKey = decodeName(match[1])
+      const value = decodeValue(match[2], foundKey)
       jar[foundKey] = value
       if (key === foundKey) {
         break

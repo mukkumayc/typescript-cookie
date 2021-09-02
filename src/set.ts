@@ -1,11 +1,11 @@
-import { CookieAttributes, WriteConverter } from '../types/index'
+import { CookieAttributes, Encoder } from '../types/index'
 
 export default function (
   key: string,
   value: any,
   attributes: CookieAttributes & { expires?: any },
-  convertValue: WriteConverter<any>,
-  convertName: WriteConverter<string>
+  encodeValue: Encoder<any>,
+  encodeName: Encoder<string>
 ): string {
   // Copy incoming attributes as to not alter the original object..
   attributes = Object.assign({}, attributes)
@@ -43,7 +43,7 @@ export default function (
     stringifiedAttributes += `=${attributeValue}`
   }
 
-  return (document.cookie = `${convertName(key)}=${convertValue(
+  return (document.cookie = `${encodeName(key)}=${encodeValue(
     value,
     key
   )}${stringifiedAttributes}`)

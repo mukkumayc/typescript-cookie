@@ -1,25 +1,27 @@
 import {
   CookieAttributes,
   CookieAttributesConfig,
-  CookieConverterConfig,
-  ReadConverter,
-  WriteConverter
+  CookieCodecConfig,
+  Decoder,
+  Encoder
 } from '../types/index'
 import set from './set'
 import get from './get'
 import {
-  readName as defaultNameDecoder,
-  readValue as defaultValueDecoder,
-  writeName as defaultNameEncoder,
-  writeValue as defaultValueEncoder
-} from './converter'
+  decodeName as defaultNameDecoder,
+  decodeValue as defaultValueDecoder,
+  encodeName as defaultNameEncoder,
+  encodeValue as defaultValueEncoder
+} from './codec'
 
-export const defaultConverter: CookieConverterConfig<
+export const defaultCodec: CookieCodecConfig<
 string | number | boolean | undefined | null,
 string
 > = {
-  write: defaultValueEncoder,
-  read: defaultValueDecoder
+  decodeName: defaultNameDecoder,
+  decodeValue: defaultValueDecoder,
+  encodeName: defaultNameEncoder,
+  encodeValue: defaultValueEncoder
 }
 
 export const defaultAttributes: CookieAttributesConfig = { path: '/' }
@@ -32,8 +34,8 @@ export function setCookie (
     encodeValue = defaultValueEncoder,
     encodeName = defaultNameEncoder
   }: {
-    encodeValue?: WriteConverter<any>
-    encodeName?: WriteConverter<string>
+    encodeValue?: Encoder<any>
+    encodeName?: Encoder<string>
   } = {}
 ): string {
   return set(key, value, attributes, encodeValue, encodeName)
@@ -45,8 +47,8 @@ export function getCookie (
     decodeValue = defaultValueDecoder,
     decodeName = defaultNameDecoder
   }: {
-    decodeValue?: ReadConverter<any>
-    decodeName?: ReadConverter<string>
+    decodeValue?: Decoder<any>
+    decodeName?: Decoder<string>
   } = {}
 ): ReturnType<typeof decodeValue> | undefined {
   return get(key, decodeValue, decodeName)
@@ -56,8 +58,8 @@ export function getCookies ({
   decodeValue = defaultValueDecoder,
   decodeName = defaultNameDecoder
 }: {
-  decodeValue?: ReadConverter<any>
-  decodeName?: ReadConverter<string>
+  decodeValue?: Decoder<any>
+  decodeName?: Decoder<string>
 } = {}): object & { [property: string]: ReturnType<typeof decodeValue> } {
   return get(undefined, decodeValue, decodeName)
 }
