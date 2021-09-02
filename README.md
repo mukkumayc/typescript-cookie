@@ -197,7 +197,7 @@ All get methods that rely on a proper decoding to work, such as `getCookies()` a
 Example from reading one of the cookies that can only be decoded using the `escape` function:
 
 ```typescript
-import { defaultCodec, getCookie, getCookies } from 'ts-cookie'
+import { DEFAULT_CODEC, getCookie, getCookies } from 'ts-cookie'
 
 document.cookie = 'escaped=%u5317'
 document.cookie = 'default=%E5%8C%97'
@@ -207,7 +207,7 @@ const read: Decoder<string> = (value, name) => {
     return unescape(value)
   }
   // Fall back to default for all other cookies
-  return defaultCodec.decodeValue(value, name)
+  return DEFAULT_CODEC.decodeValue(value, name)
 }
 
 getCookie('escaped', read) // => '北'

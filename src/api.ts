@@ -14,22 +14,24 @@ import {
   encodeValue as defaultValueEncoder
 } from './codec'
 
-export const defaultCodec: CookieCodecConfig<
+export const DEFAULT_CODEC: CookieCodecConfig<
 string | number | boolean | undefined | null,
 string
-> = {
+> = Object.freeze({
   decodeName: defaultNameDecoder,
   decodeValue: defaultValueDecoder,
   encodeName: defaultNameEncoder,
   encodeValue: defaultValueEncoder
-}
+})
 
-export const defaultAttributes: CookieAttributesConfig = { path: '/' }
+export const DEFAULT_ATTRIBUTES: CookieAttributesConfig = Object.freeze({
+  path: '/'
+})
 
 export function setCookie (
   key: string,
   value: any,
-  attributes: CookieAttributes = defaultAttributes,
+  attributes: CookieAttributes = DEFAULT_ATTRIBUTES,
   {
     encodeValue = defaultValueEncoder,
     encodeName = defaultNameEncoder
@@ -66,7 +68,7 @@ export function getCookies ({
 
 export function removeCookie (
   key: string,
-  attributes: CookieAttributes = defaultAttributes
+  attributes: CookieAttributes = DEFAULT_ATTRIBUTES
 ): void {
   setCookie(
     key,
