@@ -13,9 +13,9 @@ function init<W, R> (
   defaultAttributes: CookieAttributes
 ): Cookies<W, R> {
   const api: any = {
-    set: function (key: any, value: any, attributes?: any) {
+    set: function (name: any, value: any, attributes?: any) {
       return setCookie(
-        key,
+        name,
         value,
         Object.assign({}, this.attributes, attributes),
         {
@@ -23,17 +23,17 @@ function init<W, R> (
         }
       )
     },
-    get: function (key?: any) {
+    get: function (name?: any) {
       if (arguments.length === 0) {
         return getCookies(this.converter.read)
       }
-      if (key == null) {
+      if (name == null) {
         return
       }
-      return getCookie(key, this.converter.read)
+      return getCookie(name, this.converter.read)
     },
-    remove: function (key: any, attributes?: any) {
-      removeCookie(key, Object.assign({}, this.attributes, attributes))
+    remove: function (name: any, attributes?: any) {
+      removeCookie(name, Object.assign({}, this.attributes, attributes))
     },
     withAttributes: function (attributes: any) {
       return init(

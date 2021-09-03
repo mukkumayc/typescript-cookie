@@ -29,7 +29,7 @@ export const DEFAULT_ATTRIBUTES: CookieAttributesConfig = Object.freeze({
 })
 
 export function setCookie (
-  key: string,
+  name: string,
   value: any,
   attributes: CookieAttributes = DEFAULT_ATTRIBUTES,
   {
@@ -37,17 +37,17 @@ export function setCookie (
     encodeName = defaultNameEncoder
   }: CookieEncoding<any> = {}
 ): string {
-  return set(key, value, attributes, encodeValue, encodeName)
+  return set(name, value, attributes, encodeValue, encodeName)
 }
 
 export function getCookie (
-  key: string,
+  name: string,
   {
     decodeValue = defaultValueDecoder,
     decodeName = defaultNameDecoder
   }: CookieDecoding<any> = {}
 ): ReturnType<typeof decodeValue> | undefined {
-  return get(key, decodeValue, decodeName)
+  return get(name, decodeValue, decodeName)
 }
 
 export function getCookies ({
@@ -60,11 +60,11 @@ export function getCookies ({
 }
 
 export function removeCookie (
-  key: string,
+  name: string,
   attributes: CookieAttributes = DEFAULT_ATTRIBUTES
 ): void {
   setCookie(
-    key,
+    name,
     '',
     Object.assign({}, attributes, {
       expires: -1
