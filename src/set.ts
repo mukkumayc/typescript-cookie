@@ -13,33 +13,21 @@ function stringifyAttributes (
     attributes.expires = attributes.expires.toUTCString()
   }
 
-  let stringifiedAttributes: string = ''
-  for (const attributeName in attributes) {
-    if (
-      attributes[attributeName] == null ||
-      attributes[attributeName] === false
-    ) {
-      continue
-    }
-
-    stringifiedAttributes += `; ${attributeName}`
-
-    if (attributes[attributeName] === true) {
-      continue
-    }
-
-    // Considers RFC 6265 section 5.2:
-    // ...
-    // 3.  If the remaining unparsed-attributes contains a %x3B (";")
-    //     character:
-    // Consume the characters of the unparsed-attributes up to,
-    // not including, the first %x3B (";") character.
-    // ...
-    const attributeValue: string = attributes[attributeName].split(';')[0]
-    stringifiedAttributes += `=${attributeValue}`
-  }
-
-  return stringifiedAttributes
+  return (
+    Object.entries(attributes)
+      .filter(([key, value]) => !!value)
+      // Considers RFC 6265 section 5.2:
+      // ...
+      // 3.  If the remaining unparsed-attributes contains a %x3B (";")
+      //     character:
+      // Consume the characters of the unparsed-attributes up to,
+      // not including, the first %x3B (";") character.
+      // ...
+      .map(([key, value]) =>
+        value === true ? `; ${key}` : `; ${key}=${value.split(';')[0]}`
+      )
+      .join('')
+  )
 }
 
 export default function (
