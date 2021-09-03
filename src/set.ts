@@ -15,7 +15,7 @@ function stringifyAttributes (
 
   return (
     Object.entries(attributes)
-      .filter(([key, value]) => !!value)
+      .filter(([key, value]: [string, any]) => value != null && value !== false)
       // Considers RFC 6265 section 5.2:
       // ...
       // 3.  If the remaining unparsed-attributes contains a %x3B (";")
@@ -23,7 +23,7 @@ function stringifyAttributes (
       // Consume the characters of the unparsed-attributes up to,
       // not including, the first %x3B (";") character.
       // ...
-      .map(([key, value]) =>
+      .map(([key, value]: [string, string | true]) =>
         value === true ? `; ${key}` : `; ${key}=${value.split(';')[0]}`
       )
       .join('')
