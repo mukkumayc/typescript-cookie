@@ -2,6 +2,8 @@
   "name": "ts-cookie",
   "version": "0.0.1",
   "description": "A simple, lightweight API for handling cookies in the browser",
+  "author": "Klaus Hartl",
+  "license": "MIT",
   "module": "dist/ts-cookie.mjs",
   "unpkg": "dist/ts-cookie.min.mjs",
   "jsdelivr": "dist/ts-cookie.min.mjs",
@@ -10,9 +12,6 @@
       "import": "./dist/ts-cookie.mjs"
     },
     "./package.json": "./package.json"
-  },
-  "directories": {
-    "test": "test"
   },
   "keywords": [
     "cookie",
@@ -34,13 +33,13 @@
     "type": "git",
     "url": "git@github.com:carhartl/ts-cookie.git"
   },
+  "directories": {
+    "test": "test"
+  },
   "files": [
-    "index.js",
     "dist/**/*"
   ],
   "types": "./dist/index.d.ts",
-  "author": "Klaus Hartl",
-  "license": "MIT",
   "devDependencies": {
     "@rollup/plugin-typescript": "^8.2.5",
     "@types/jest": "^27.0.1",
