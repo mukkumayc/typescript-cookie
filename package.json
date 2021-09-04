@@ -14,10 +14,13 @@
     "./package.json": "./package.json"
   },
   "keywords": [
+    "browser",
+    "client-side",
     "cookie",
     "cookies",
-    "browser",
-    "client"
+    "esm",
+    "module",
+    "typescript"
   ],
   "scripts": {
     "test": "jest --ci",
