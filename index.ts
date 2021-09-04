@@ -1,7 +1,11 @@
-import * as Types from './types/index'
-import * as api from './src/api'
-import Cookies from './src/compat'
-
+import * as Types from './dist/types'
 export { Types }
-export { api }
-export default Cookies
+export {
+  DEFAULT_ATTRIBUTES,
+  DEFAULT_CODEC,
+  getCookie,
+  getCookies,
+  removeCookie,
+  setCookie
+} from './dist/src/api'
+export { default as Cookies } from './dist/src/compat'
