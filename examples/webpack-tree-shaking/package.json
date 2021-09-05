@@ -5,6 +5,7 @@
   "description": "",
   "private": true,
   "scripts": {
+    "setup": "npm link ts-cookie",
     "start": "node server.js",
     "build": "npx webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -18,6 +19,6 @@
     "webpack-cli": "^4.7.2"
   },
   "dependencies": {
-    "ts-cookie": "file:../.."
+    "ts-cookie": "ts-cookie"
   }
 }
