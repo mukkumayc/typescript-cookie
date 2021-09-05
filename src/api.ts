@@ -44,7 +44,7 @@ function stringifyAttributes (
 }
 
 type GetReturn<T, R> = [T] extends [undefined]
-  ? object & { [property: string]: string }
+  ? { [property: string]: string }
   : R | undefined
 
 function get<T extends string | undefined> (
@@ -110,7 +110,7 @@ export function getCookie (
 export function getCookies ({
   decodeValue = defaultValueDecoder,
   decodeName = defaultNameDecoder
-}: CookieDecoding<any> = {}): object & {
+}: CookieDecoding<any> = {}): {
     [property: string]: ReturnType<typeof decodeValue>
   } {
   return get(undefined, decodeValue, decodeName)

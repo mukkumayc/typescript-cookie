@@ -2,7 +2,7 @@ type ReadOnlyConfig<T> = {
   readonly [Property in keyof T]: T[Property]
 }
 
-export type CookieAttributes = object & {
+export interface CookieAttributes {
   path?: string
   domain?: string
   expires?: number | Date
@@ -17,36 +17,36 @@ export type Decoder<T> = (value: string, name?: string) => T
 
 export type Encoder<T> = (value: T, name?: string) => string
 
-export type CookieDecoding<T> = object & {
+export interface CookieDecoding<T> {
   readonly decodeName?: Decoder<string>
   readonly decodeValue?: Decoder<T>
 }
 
-export type CookieEncoding<T> = object & {
+export interface CookieEncoding<T> {
   readonly encodeName?: Encoder<string>
   readonly encodeValue?: Encoder<T>
 }
 
-export type CookieCodecConfig<W, R> = object & {
+export interface CookieCodecConfig<W, R> {
   readonly decodeName: Decoder<string>
   readonly decodeValue: Decoder<R>
   readonly encodeName: Encoder<string>
   readonly encodeValue: Encoder<W>
 }
 
-export type CookieConverter<W, R> = object & {
+export interface CookieConverter<W, R> {
   read: Decoder<R>
   write: Encoder<W>
 }
 
 export type CookieConverterConfig<W, R> = ReadOnlyConfig<CookieConverter<W, R>>
 
-type CookiesConfig<W, R> = object & {
+interface CookiesConfig<W, R> {
   readonly converter: CookieConverterConfig<W, R>
   readonly attributes: CookieAttributesConfig
 }
 
-type CookiesApi<W, R> = object & {
+interface CookiesApi<W, R> {
   set: (
     name: string,
     value: W,
@@ -54,7 +54,7 @@ type CookiesApi<W, R> = object & {
   ) => string | undefined
   get: (
     name?: string | undefined | null
-  ) => R | undefined | (object & { [property: string]: R })
+  ) => R | undefined | { [property: string]: R }
   remove: (name: string, attributes?: CookieAttributes) => void
   withAttributes: <W, R>(attributes: CookieAttributes) => Cookies<W, R>
   withConverter: <W, R>(converter: {
