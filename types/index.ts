@@ -1,7 +1,3 @@
-type ReadOnlyConfig<T> = {
-  readonly [Property in keyof T]: T[Property]
-}
-
 export interface CookieAttributes {
   path?: string
   domain?: string
@@ -11,7 +7,7 @@ export interface CookieAttributes {
   [property: string]: any
 }
 
-export type CookieAttributesConfig = ReadOnlyConfig<CookieAttributes>
+export type CookieAttributesConfig = Readonly<CookieAttributes>
 
 export type Decoder<T> = (value: string, name?: string) => T
 
@@ -39,7 +35,7 @@ export interface CookieConverter<W, R> {
   write: Encoder<W>
 }
 
-export type CookieConverterConfig<W, R> = ReadOnlyConfig<CookieConverter<W, R>>
+export type CookieConverterConfig<W, R> = Readonly<CookieConverter<W, R>>
 
 interface CookiesConfig<W, R> {
   readonly converter: CookieConverterConfig<W, R>
