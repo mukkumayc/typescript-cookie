@@ -44,7 +44,7 @@ function stringifyAttributes (
 }
 
 type GetReturn<T, R> = [T] extends [undefined]
-  ? { [property: string]: string }
+  ? { [property: string]: R }
   : R | undefined
 
 function get<T extends string | undefined> (
