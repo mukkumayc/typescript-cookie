@@ -1,11 +1,11 @@
 {
-  "name": "ts-cookie-webpack-example",
+  "name": "typescript-cookie-webpack-example",
   "sideEffects": false,
   "version": "1.0.0",
   "description": "",
   "private": true,
   "scripts": {
-    "setup": "npm link ts-cookie",
+    "setup": "npm link typescript-cookie",
     "start": "node server.js",
     "build": "npx webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -21,6 +21,6 @@
     "webpack-cli": "^4.7.2"
   },
   "dependencies": {
-    "ts-cookie": "ts-cookie"
+    "typescript-cookie": "typescript-cookie"
   }
 }
