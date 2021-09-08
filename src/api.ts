@@ -47,11 +47,11 @@ type GetReturn<T, R> = [T] extends [undefined]
   ? { [property: string]: R }
   : R | undefined
 
-function get<T extends string | undefined> (
+function get<T extends string | undefined, U> (
   name: T,
-  decodeValue: Decoder<any>,
+  decodeValue: Decoder<U>,
   decodeName: Decoder<string>
-): GetReturn<T, typeof decodeValue> {
+): GetReturn<T, U> {
   const scan = /(?:^|; )([^=]*)=([^;]*)/g
   const jar: any = {}
   let match
@@ -127,21 +127,39 @@ export function setCookie (
   )}${stringifyAttributes(attributes)}`)
 }
 
+export function getCookie (name: string): string | undefined
+
+export function getCookie<T extends {}> (
+  name: string,
+  { decodeValue, decodeName }: CookieDecoding<T>
+): T | undefined
+
 export function getCookie (
   name: string,
   {
     decodeValue = defaultValueDecoder,
     decodeName = defaultNameDecoder
-  }: CookieDecoding<any> = {}
-): ReturnType<typeof decodeValue> | undefined {
+  }: CookieDecoding<string> = {}
+): string | undefined {
   return get(name, decodeValue, decodeName)
+}
+
+export function getCookies (): {
+  [property: string]: string
+}
+
+export function getCookies<T extends {}> ({
+  decodeValue,
+  decodeName
+}: CookieDecoding<T>): {
+  [property: string]: T
 }
 
 export function getCookies ({
   decodeValue = defaultValueDecoder,
   decodeName = defaultNameDecoder
-}: CookieDecoding<any> = {}): {
-    [property: string]: ReturnType<typeof decodeValue>
+}: CookieDecoding<string> = {}): {
+    [property: string]: string
   } {
   return get(undefined, decodeValue, decodeName)
 }
