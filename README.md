@@ -11,7 +11,7 @@ A simple, lightweight TypeScript API for handling cookies.
 - [RFC 6265](https://tools.ietf.org/html/rfc6265) compliant
 - Enable [custom encoding/decoding](#codec)
 - Think: [js-cookie](https://github.com/js-cookie/js-cookie) 4.0
-- **< 700 bytes** gzipped!
+- **< 750 bytes** gzipped!
 
 **👉👉 If you're viewing this at https://github.com/typescript-cookie/typescript-cookie, you're reading the documentation for the master branch.
 [View documentation for the latest release.](https://github.com/typescript-cookie/typescript-cookie/tree/latest#readme) 👈👈**
