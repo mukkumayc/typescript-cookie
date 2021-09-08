@@ -8,7 +8,7 @@
     "tagName": "v${version}"
   },
   "github": {
-    "assets": ["dist/*.mjs", "dist/**/*.ts"],
+    "assets": ["dist/**/*.mjs", "dist/**/*.ts"],
     "draft": true,
     "release": true,
     "releaseName": "v${version}"
