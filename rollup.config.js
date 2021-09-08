@@ -41,7 +41,7 @@ export default [
     input: 'src/compat.ts',
     output: [
       {
-        file: 'dist/ts-cookie.compat.mjs',
+        file: 'dist/src/compat.mjs', // Produce file so it sits next to its type declarations!
         format: 'esm'
       }
     ],

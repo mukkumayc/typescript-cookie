@@ -11,8 +11,8 @@
     ".": {
       "import": "./dist/ts-cookie.mjs"
     },
-    "./compat": {
-      "import": "./dist/ts-cookie.compat.mjs"
+    "./dist/src/compat": {
+      "import": "./dist/src/compat.mjs"
     },
     "./package.json": "./package.json"
   },
