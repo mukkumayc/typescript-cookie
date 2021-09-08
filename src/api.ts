@@ -82,14 +82,45 @@ export const DEFAULT_ATTRIBUTES: CookieAttributesConfig = Object.freeze({
   path: '/'
 })
 
+// The following overloads are necessary as to make the type of `value`
+// and encoder dependent and achieve typesafety along with default encoder
+// in the destructured argument of `setCookie()`:
+// These types are all ok and default encoder deals with them:
+// setCookie('c', 'foo')
+// setCookie('c', 1234)
+// setCookie('c', true)
+// setCookie('c', undefined)
+// setCookie('c', null)
+// Objects are not supported by the default encoder and require
+// an encoder that operates on the given type..
+// setCookie('c', {}) // Argument of type '{}' is not assignable to parameter of type 'string | number | boolean'.
+// setCookie('c', {}, undefined, { encodeValue: (v) => v as string }) // Ok!
+// setCookie('c', new Date()) // Argument of type 'Date' is not assignable to parameter of type 'string | number | boolean'.
+// setCookie('c', new Date(), undefined, { encodeValue: (v) => v.toISOString() }) // Ok!
+setCookie('c', new Date(), undefined, { encodeValue: (v) => v.toISOString() })
+export function setCookie<
+  T extends string | number | boolean | undefined | null
+> (name: string, value: T): string
+
+export function setCookie<
+  T extends string | number | boolean | undefined | null
+> (name: string, value: T, attributes: CookieAttributes): string
+
+export function setCookie<T extends {}> (
+  name: string,
+  value: T,
+  attributes: CookieAttributes | undefined,
+  { encodeValue, encodeName }: CookieEncoding<T>
+): string
+
 export function setCookie (
   name: string,
-  value: any,
+  value: string | number | boolean | undefined | null,
   attributes: CookieAttributes = DEFAULT_ATTRIBUTES,
   {
     encodeValue = defaultValueEncoder,
     encodeName = defaultNameEncoder
-  }: CookieEncoding<any> = {}
+  }: CookieEncoding<string | number | boolean | undefined | null> = {}
 ): string {
   return (document.cookie = `${encodeName(name)}=${encodeValue(
     value,
