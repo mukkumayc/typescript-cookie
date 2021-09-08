@@ -97,7 +97,6 @@ export const DEFAULT_ATTRIBUTES: CookieAttributesConfig = Object.freeze({
 // setCookie('c', {}, undefined, { encodeValue: (v) => v as string }) // Ok!
 // setCookie('c', new Date()) // Argument of type 'Date' is not assignable to parameter of type 'string | number | boolean'.
 // setCookie('c', new Date(), undefined, { encodeValue: (v) => v.toISOString() }) // Ok!
-setCookie('c', new Date(), undefined, { encodeValue: (v) => v.toISOString() })
 export function setCookie<
   T extends string | number | boolean | undefined | null
 > (name: string, value: T): string
