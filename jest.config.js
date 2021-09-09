@@ -6,7 +6,7 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'jsdom',
   testEnvironmentOptions: {
-    url: 'https://example.org/test'
+    url: 'https://example.org/test' // So we can test setting cookies at the /test path..
   },
   testMatch: ['**/?(*.)+(spec|test).(mj|[tj])s?(x)'],
   transform: {}
