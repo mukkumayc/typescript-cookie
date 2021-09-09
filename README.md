@@ -26,82 +26,68 @@ $ npm i typescript-cookie
 
 ## Basic Usage
 
-Importing setter:
+Importing:
 
-```javascript
-import { setCookie } from 'typescript-cookie'
+```typescript
+import { getCookie, setCookie } from 'typescript-cookie'
 ```
 
-All other functions not being used can be tree-shaken by a bundler.
-
-Importing all:
-
-```javascript
-import { getCookie, removeCookie, setCookie } from 'typescript-cookie'
-```
+Functions not being used (that is imported) can be tree-shaken by a bundler.
 
 Create a cookie, valid across the entire site:
 
-```javascript
+```typescript
 setCookie('name', 'value')
 ```
 
 Create a cookie that expires 7 days from now, valid across the entire site:
 
-```javascript
+```typescript
 setCookie('name', 'value', { expires: 7 })
 ```
 
 Create an expiring cookie, valid to the path of the current page:
 
-```javascript
+```typescript
 setCookie('name', 'value', { expires: 7, path: '' })
 ```
 
 Read cookie:
 
-```javascript
+```typescript
 getCookie('name') // => 'value'
 getCookie('nothing') // => undefined
 ```
 
 Read all visible cookies:
 
-```javascript
+```typescript
 getCookies() // => { name: 'value' }
 ```
 
-_Note: It is not possible to read a particular cookie by passing one of the cookie attributes (which may or may not
-have been used when writing the cookie in question):_
-
-```javascript
-getCookie('foo', { domain: 'sub.example.com' }) // `domain` won't have any effect...!
-```
-
-The cookie with the name `foo` will only be available on `.get()` if it's visible from where the
-code is called; the domain and/or path attribute will not have an effect when reading.
+_Note: It is not possible to read a particular cookie by additionally passing specific cookie attributes. A cookie will only be available if it's visible from where the code is called, visibility being controlled by `path` and `domain` used when setting a cookie._
 
 Delete cookie:
 
-```javascript
+```typescript
 removeCookie('name')
 ```
 
 Delete a cookie valid to the path of the current page:
 
-```javascript
+```typescript
 setCookie('name', 'value', { path: '' })
 removeCookie('name') // fail!
 removeCookie('name', { path: '' }) // removed!
 ```
 
-_IMPORTANT! When deleting a cookie and you're not relying on the [default attributes](#cookie-attributes), you must pass the exact same path and domain attributes that were used to set the cookie:_
+_IMPORTANT! When deleting a cookie you must pass the exact same path and domain attributes that were used to set the cookie:_
 
-```javascript
+```typescript
 removeCookie('name', { path: '', domain: '.yourdomain.com' })
 ```
 
-_Note: Removing a nonexistent cookie neither raises any exception nor returns any value._
+_Note: Removing a nonexistent cookie neither raises an exception nor returns any value._
 
 ## Encoding
 
@@ -123,23 +109,23 @@ To create a cookie that expires in less than a day, you can check the [FAQ on th
 
 **Examples:**
 
-```javascript
+```typescript
 setCookie('name', 'value', { expires: 365 })
-getCookie('name') // => 'value'
+getCookie('name')
 removeCookie('name')
 ```
 
 ### path
 
-A [`string`](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#the-primitives-string-number-and-boolean) indicating the path where the cookie is visible.
+A [`string`](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#the-primitives-string-number-and-boolean) indicating the path where the cookie is supposed to be visible.
 
 **Default:** `/`
 
 **Examples:**
 
-```javascript
+```typescript
 setCookie('name', 'value', { path: '' })
-getCookie('name') // => 'value'
+getCookie('name')
 removeCookie('name', { path: '' })
 ```
 
@@ -151,11 +137,10 @@ A [`string`](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#
 
 **Examples:**
 
-Assuming a cookie that is being created on `site.com`:
-
-```javascript
+```typescript
 setCookie('name', 'value', { domain: 'subdomain.site.com' })
-getCookie('name') // => undefined (need to read at 'subdomain.site.com')
+getCookie('name')
+removeCookie('name', { domain: 'subdomain.site.com' })
 ```
 
 ### secure
@@ -166,9 +151,9 @@ Either `true` or `false`, indicating if the cookie transmission requires a secur
 
 **Examples:**
 
-```javascript
+```typescript
 setCookie('name', 'value', { secure: true })
-getCookie('name') // => 'value'
+getCookie('name')
 removeCookie('name')
 ```
 
@@ -182,9 +167,9 @@ Default: not set.
 
 **Examples:**
 
-```javascript
+```typescript
 setCookie('name', 'value', { sameSite: 'strict' })
-getCookie('name') // => 'value'
+getCookie('name')
 removeCookie('name')
 ```
 
@@ -248,10 +233,6 @@ Run tests continuously:
 ```
 $ npm test -- --watch
 ```
-
-## Security
-
-For vulnerability reports, send an e-mail to `typescript-cookie at googlegroups dot com`
 
 ## Releasing
 
