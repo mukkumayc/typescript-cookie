@@ -2,7 +2,7 @@
 module.exports = {
   clearMocks: true,
   coverageProvider: 'v8',
-  moduleFileExtensions: ['js', 'mjs', 'ts'],
+  moduleFileExtensions: ['js', 'ts'],
   preset: 'ts-jest',
   testEnvironment: 'jsdom',
   testEnvironmentOptions: {
