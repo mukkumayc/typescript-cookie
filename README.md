@@ -217,7 +217,7 @@ setCookie('uppercased', 'foo', undefined, write) // => 'uppercased=FOO; path=/'
 To ease migration while getting full TypeScript support there's a compat module that provides an api similar to [js-cookie](https://github.com/js-cookie/js-cookie):
 
 ```typescript
-import Cookies from 'typescript-cookie/dist/src/compat'
+import { Cookies } from 'typescript-cookie'
 
 Cookies.get('name')
 ```
