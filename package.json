@@ -46,7 +46,7 @@
   "files": [
     "dist/**/*"
   ],
-  "types": "./dist/types/index.d.ts",
+  "types": "./dist/src/index.d.ts",
   "devDependencies": {
     "@rollup/plugin-typescript": "^8.2.5",
     "@types/jest": "^27.0.1",
