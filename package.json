@@ -1,6 +1,6 @@
 {
   "name": "typescript-cookie",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A simple, lightweight API for handling cookies in the browser",
   "author": "Klaus Hartl",
   "license": "MIT",
