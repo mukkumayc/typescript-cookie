@@ -1,6 +1,5 @@
-import { Types as CookieTypes, getCookie } from 'typescript-cookie'
-// import { Cookies } from 'typescript-cookie/compat' <= package.json `export` submodule not yet supported in TypeScript
-import Cookies from 'typescript-cookie/dist/src/compat'
+import { Cookies, getCookie } from 'typescript-cookie'
+import type { Types as CookieTypes } from 'typescript-cookie'
 
 const customDecoder: CookieTypes.Decoder<string> = (value) =>
   value.toUpperCase()

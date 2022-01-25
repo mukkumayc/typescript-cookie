@@ -1,3 +1,5 @@
+import * as Types from '../types/index'
+export { Types }
 export {
   DEFAULT_ATTRIBUTES,
   DEFAULT_CODEC,

@@ -1,5 +1,4 @@
-import { getCookie, Cookies, removeCookie } from 'typescript-cookie'
+import { Cookies, getCookie } from 'typescript-cookie'
 
-getCookie('foo')
 Cookies.get('foo')
-removeCookie('foo')
+getCookie('foo')

@@ -9,6 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "typescript-cookie": "1.0.2"
+    "typescript-cookie": "*"
   }
 }

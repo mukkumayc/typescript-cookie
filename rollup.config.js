@@ -13,7 +13,7 @@ const licenseBanner = license({
 
 export default [
   {
-    input: 'src/api.ts',
+    input: 'src/index.ts',
     output: [
       {
         file: pkg.module,
@@ -23,7 +23,7 @@ export default [
     plugins: [typescript(), licenseBanner]
   },
   {
-    input: 'src/api.ts',
+    input: 'src/index.ts',
     output: [
       {
         file: pkg.module.replace('.mjs', '.min.mjs'),
@@ -36,15 +36,5 @@ export default [
       licenseBanner, // must be applied after terser, otherwise it's being stripped away...
       filesize()
     ]
-  },
-  {
-    input: 'src/compat.ts',
-    output: [
-      {
-        file: 'dist/src/compat.mjs', // Produce file so it sits next to its type declarations!
-        format: 'esm'
-      }
-    ],
-    plugins: [typescript(), licenseBanner]
   }
 ]

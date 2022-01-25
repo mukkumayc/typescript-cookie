@@ -11,9 +11,6 @@
     ".": {
       "import": "./dist/typescript-cookie.mjs"
     },
-    "./dist/src/compat": {
-      "import": "./dist/src/compat.mjs"
-    },
     "./package.json": "./package.json"
   },
   "keywords": [
