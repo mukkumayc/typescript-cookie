@@ -41,6 +41,7 @@
     "test": "test"
   },
   "files": [
+    "index.js",
     "dist/**/*"
   ],
   "types": "./dist/src/index.d.ts",
