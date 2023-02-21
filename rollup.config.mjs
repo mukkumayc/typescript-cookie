@@ -2,7 +2,7 @@ import typescript from '@rollup/plugin-typescript'
 import terser from '@rollup/plugin-terser'
 import filesize from 'rollup-plugin-filesize'
 import license from 'rollup-plugin-license'
-import pkg from './package.json'
+import pkg from './package.json' assert { type: 'json' }
 
 const licenseBanner = license({
   banner: {
