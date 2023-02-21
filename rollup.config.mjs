@@ -1,8 +1,13 @@
+import * as fs from 'fs'
 import typescript from '@rollup/plugin-typescript'
 import terser from '@rollup/plugin-terser'
 import filesize from 'rollup-plugin-filesize'
 import license from 'rollup-plugin-license'
-import pkg from './package.json' assert { type: 'json' }
+
+const loadJSON = (path) =>
+  JSON.parse(fs.readFileSync(new URL(path, import.meta.url)))
+
+const pkg = loadJSON('./package.json')
 
 const licenseBanner = license({
   banner: {
