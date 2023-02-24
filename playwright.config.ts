@@ -11,7 +11,7 @@ export default defineConfig({
   },
   webServer: {
     command: `npx -y http-server -p ${port}`,
-    url: baseURL,
+    port,
     timeout: 120 * 1000
   },
   timeout: 10 * 1000,
