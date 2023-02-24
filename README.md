@@ -1,4 +1,4 @@
-# TypeScript Cookie [![CI Status](https://github.com/carhartl/typescript-cookie/actions/workflows/ci.yml/badge.svg)](https://github.com/carhartl/typescript-cookie/actions/workflows/ci.yml) [![BrowserStack Test](https://github.com/carhartl/typescript-cookie/actions/workflows/browserstack.yml/badge.svg)](https://github.com/carhartl/typescript-cookie/actions/workflows/browserstack.yml) [![TypeScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com) [![Maintainability](https://api.codeclimate.com/v1/badges/d87f5ff1ca1041f8723a/maintainability)](https://codeclimate.com/github/carhartl/typescript-cookie/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/d87f5ff1ca1041f8723a/test_coverage)](https://codeclimate.com/github/carhartl/typescript-cookie/test_coverage) [![npm](https://img.shields.io/github/package-json/v/carhartl/typescript-cookie)](https://www.npmjs.com/package/typescript-cookie) [![size](https://img.shields.io/bundlephobia/minzip/typescript-cookie)](https://www.npmjs.com/package/typescript-cookie)
+# TypeScript Cookie [![CI Status](https://github.com/carhartl/typescript-cookie/actions/workflows/ci.yml/badge.svg)](https://github.com/carhartl/typescript-cookie/actions/workflows/ci.yml) [![E2E](https://github.com/carhartl/typescript-cookie/actions/workflows/e2e.yml/badge.svg)](https://github.com/carhartl/typescript-cookie/actions/workflows/e2e.yml) [![TypeScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com) [![Maintainability](https://api.codeclimate.com/v1/badges/d87f5ff1ca1041f8723a/maintainability)](https://codeclimate.com/github/carhartl/typescript-cookie/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/d87f5ff1ca1041f8723a/test_coverage)](https://codeclimate.com/github/carhartl/typescript-cookie/test_coverage) [![npm](https://img.shields.io/github/package-json/v/carhartl/typescript-cookie)](https://www.npmjs.com/package/typescript-cookie) [![size](https://img.shields.io/bundlephobia/minzip/typescript-cookie)](https://www.npmjs.com/package/typescript-cookie)
 
 A simple, lightweight TypeScript API for handling cookies.
 
@@ -252,11 +252,3 @@ $ npm run release minor
 
 _GitHub releases are created as a draft and need to be published manually!
 (This is so we are able to craft suitable release notes before publishing.)_
-
-## Supporters
-
-<p>
-  <a href="https://www.browserstack.com/"><img src="https://raw.githubusercontent.com/wiki/js-cookie/js-cookie/Browserstack-logo%402x.png" width="150"></a>
-</p>
-
-Many thanks to [BrowserStack](https://www.browserstack.com/) for providing unlimited browser testing free of cost.

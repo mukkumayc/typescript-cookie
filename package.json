@@ -24,7 +24,7 @@
   ],
   "scripts": {
     "test": "jest",
-    "test:e2e": "jest --config '{\"testMatch\":[\"**/?(*.)e2e.js\"]}'",
+    "test:e2e": "playwright test",
     "coverage": "jest --coverage",
     "lint": "standard && ts-standard",
     "format": "prettier -l --write --single-quote --no-semi '**/*.{html,js,json,md,mjs,ts,yml}' && standard --fix && ts-standard --fix",
@@ -46,6 +46,7 @@
   ],
   "types": "./dist/src/index.d.ts",
   "devDependencies": {
+    "@playwright/test": "^1.31.0",
     "@rollup/plugin-terser": "^0.4.0",
     "@rollup/plugin-typescript": "^11.0.0",
     "@types/jest": "^27.0.1",
@@ -60,7 +61,6 @@
     "rollup": "^3.17.2",
     "rollup-plugin-filesize": "^9.1.1",
     "rollup-plugin-license": "^3.0.0",
-    "selenium-webdriver": "^4.0.0-beta.4",
     "standard": "^17.0.0",
     "ts-jest": "^27.0.5",
     "ts-node": "^10.2.1",
